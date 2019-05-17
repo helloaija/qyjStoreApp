@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">亲亿家</string>
+    <string name="nav_sell">出库</string>
+    <string name="nav_stock">入库</string>
+    <string name="nav_statistics">统计</string>
+</resources>
