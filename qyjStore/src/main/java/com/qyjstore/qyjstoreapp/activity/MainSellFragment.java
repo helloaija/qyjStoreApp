@@ -14,6 +14,7 @@ import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.bean.SellOrderBean;
 import com.qyjstore.qyjstoreapp.utils.DateUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,9 @@ public class MainSellFragment extends Fragment {
         List<SellOrderBean> itemList = new ArrayList<>();
         for (int i = 1; i <= len; i ++) {
             SellOrderBean bean = new SellOrderBean("用户名" + i, new Date());
+            bean.setOrderAmount(new BigDecimal(7890));
+            bean.setOrderStatus("UNPAY");
+            bean.setOrderNumber("20190520123456");
             itemList.add(bean);
         }
         // ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_expandable_list_item_1, orders);

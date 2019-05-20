@@ -1,5 +1,6 @@
 package com.qyjstore.qyjstoreapp.bean;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -8,8 +9,16 @@ import java.util.Date;
  * @date 2019-05-20
  */
 public class SellOrderBean {
+    /** 订单编号 */
+    private String orderNumber;
+    /** 购买人 */
     private String userName;
+    /** 销售时间 */
     private Date orderTime;
+    /** 订单金额 */
+    private BigDecimal orderAmount;
+    /** 订单状态 */
+    private String orderStatus;
 
     public SellOrderBean() {
     }
@@ -33,5 +42,29 @@ public class SellOrderBean {
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public BigDecimal getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(BigDecimal orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
