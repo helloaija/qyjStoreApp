@@ -5,4 +5,9 @@
     <string name="nav_statistics">统计</string>
 
     <string name="btn_query">查询</string>
+    <string name="text_lr">利润</string>
+    <string name="hint_sell_query">手机号码或用户名查询</string>
+    <string name="text_rmb_sign">￥</string>
+    <string name="text_split_point">.</string>
+
 </resources>

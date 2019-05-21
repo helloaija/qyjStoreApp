@@ -17,6 +17,8 @@ public class SellOrderBean {
     private Date orderTime;
     /** 订单金额 */
     private BigDecimal orderAmount;
+    /** 订单利润 */
+    private BigDecimal profitAmount;
     /** 订单状态 */
     private String orderStatus;
 
@@ -66,5 +68,13 @@ public class SellOrderBean {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public BigDecimal getProfitAmount() {
+        return profitAmount;
+    }
+
+    public void setProfitAmount(BigDecimal profitAmount) {
+        this.profitAmount = profitAmount;
     }
 }
