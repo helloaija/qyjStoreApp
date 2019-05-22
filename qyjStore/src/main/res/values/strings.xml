@@ -9,5 +9,7 @@
     <string name="hint_sell_query">手机号码或用户名查询</string>
     <string name="text_rmb_sign">￥</string>
     <string name="text_split_point">.</string>
+    <string name="gesture_label_setting">设置手势密码</string>
+    <string name="gesture_label_comfirm">确认手势密码</string>
 
 </resources>
