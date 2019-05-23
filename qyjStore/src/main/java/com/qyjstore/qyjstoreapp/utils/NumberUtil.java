@@ -15,5 +15,7 @@ public class NumberUtil {
 
     public static void main(String[] args) {
         System.out.println(NumberUtil.getScale(new BigDecimal(135.13525151), 4));
+        System.out.println(Math.tan(Math.toRadians(45.0)));
+        System.out.println(Math.toDegrees(Math.atan(-1)));
     }
 }
