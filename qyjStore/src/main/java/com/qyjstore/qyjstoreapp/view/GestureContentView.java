@@ -402,7 +402,14 @@ public class GestureContentView extends ViewGroup {
         return false;
     }
 
+    /**
+     * 监听器接口
+     */
     public interface GestureContentListener {
+        /**
+         * 绘制完成时调用
+         * @param password
+         */
         void onDrawFinished(String password);
     }
 }
