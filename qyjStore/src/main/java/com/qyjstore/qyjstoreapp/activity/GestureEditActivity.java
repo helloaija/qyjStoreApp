@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.view.GestureContentView;
@@ -12,7 +13,7 @@ import com.qyjstore.qyjstoreapp.view.GestureIndicatorView;
 
 /**
  * @Author shitl
- * @Description 设置手势
+ * @Description 设置手势、确认手势
  * @date 2019-05-22
  */
 public class GestureEditActivity extends AppCompatActivity {
@@ -30,6 +31,8 @@ public class GestureEditActivity extends AppCompatActivity {
     private TextView titleTextView;
     /** 提示信息 */
     private TextView tipTextView;
+    /** 重置标签 */
+    private TextView resetTextView;
     /** 密码 */
     private String password;
     /** 确认密码*/
@@ -43,6 +46,7 @@ public class GestureEditActivity extends AppCompatActivity {
         titleTextView = findViewById(R.id.activity_gesture_edit_tv_title);
         indicator = findViewById(R.id.activity_gesture_edit_indicator);
         tipTextView = findViewById(R.id.activity_gesture_edit_tv_tip);
+        resetTextView = findViewById(R.id.activity_gesture_edit_tv_reset);
 
         gestureContent = findViewById(R.id.activity_gesture_edit_content);
         gestureContent.setGestureContentListener(new GestureContentView.GestureContentListener() {
@@ -59,14 +63,33 @@ public class GestureEditActivity extends AppCompatActivity {
                     initComfirmView();
                 } else {
                     comfirePassword = resultPassword;
-                    if (validPassword(resultPassword) && comfirePassword.equals(password)) {
-                        // 跳转到首页
-                        Intent intent = new Intent(GestureEditActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+
+                    if (!validPassword(resultPassword)) {
+                        gestureContent.setStatus(GestureContentView.STATUS_WRONG);
+                        gestureContent.reset(1000);
+                        return;
                     }
+                    if (!comfirePassword.equals(password)) {
+                        tipTextView.setText(R.string.gesture_label_comfirm_wrong);
+                        tipTextView.setTextColor(getResources().getColor(R.color.colorRed, null));
+                        gestureContent.setStatus(GestureContentView.STATUS_WRONG);
+                        gestureContent.reset(1000);
+                        return;
+                    }
+                    tipTextView.setText(R.string.gesture_label_suc);
+                    // 跳转到首页
+                    Intent intent = new Intent(GestureEditActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
+            }
+        });
+
+        resetTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initSettingView();
             }
         });
     }
@@ -87,7 +110,7 @@ public class GestureEditActivity extends AppCompatActivity {
             return false;
         }
 
-        tipTextView.setTextColor(getResources().getColor(R.color.mtrl_scrim_color, null));
+        this.tipTextView.setTextColor(getResources().getColor(R.color.mtrl_scrim_color, null));
         return true;
     }
 
@@ -95,9 +118,24 @@ public class GestureEditActivity extends AppCompatActivity {
      * 初始化确认手势
      */
     private void initComfirmView() {
-        gestureContent.reset();
-        titleTextView.setText(R.string.gesture_label_comfirm);
-        tipTextView.setText(R.string.gesture_label_comfirm);
-        editType = EDIT_TYPE_COMFIRM;
+        this.gestureContent.reset();
+        this.titleTextView.setText(R.string.gesture_label_comfirm);
+        this.tipTextView.setText(R.string.gesture_label_comfirm);
+        this.resetTextView.setVisibility(View.VISIBLE);
+        this.editType = EDIT_TYPE_COMFIRM;
+    }
+
+    /**
+     * 初始化设置手势
+     */
+    private void initSettingView() {
+        this.gestureContent.reset();
+        this.titleTextView.setText(R.string.gesture_label_setting);
+        this.tipTextView.setText(R.string.gesture_label_setting);
+        this.resetTextView.setVisibility(View.INVISIBLE);
+        this.editType = EDIT_TYPE_SETTING;
+        this.password = "";
+        this.comfirePassword = "";
+        this.indicator.setPath(password);
     }
 }

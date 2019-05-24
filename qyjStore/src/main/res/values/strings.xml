@@ -14,5 +14,6 @@
     <string name="gesture_label_len">至少连接4个点，请重新绘制</string>
     <string name="gesture_label_comfirm_wrong">与上一次绘制不一致，请重新绘制</string>
     <string name="gesture_label_reset">重新设置手势密码</string>
+    <string name="gesture_label_suc">手势密码设置成功</string>
 
 </resources>
