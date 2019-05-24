@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseApplication;
+import com.qyjstore.qyjstoreapp.utils.ToastUtil;
 import com.qyjstore.qyjstoreapp.view.GestureContentView;
 import com.qyjstore.qyjstoreapp.view.GestureIndicatorView;
 
@@ -81,7 +82,7 @@ public class GestureVerifyActivity extends AppCompatActivity {
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
                 // 点击两次回退，时间间隔超过两秒就提示，两秒以内就退出
                 if (keyBackDownAt == 0 || System.currentTimeMillis() - keyBackDownAt > 2000L) {
-                    Toast.makeText(GestureVerifyActivity.this, "提示的内容", Toast.LENGTH_SHORT).show();
+                    ToastUtil.makeText(GestureVerifyActivity.this, "再点击一次退出应用");
                     keyBackDownAt = System.currentTimeMillis();
                 } else {
                     BaseApplication.getInstance().exit();

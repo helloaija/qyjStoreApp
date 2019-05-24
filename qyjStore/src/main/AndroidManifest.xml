@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
 
+        <!--登录界面-->
+        <activity android:name="com.qyjstore.qyjstoreapp.activity.LoginActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+
         <!--主框架-->
         <activity android:name="com.qyjstore.qyjstoreapp.activity.MainActivity"
                   android:launchMode="singleTask" android:screenOrientation="portrait">

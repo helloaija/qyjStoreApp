@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="#f6f6f6">
+
+    <TextView
+            android:id="@+id/activity_login_tv_username"
+            android:layout_height="wrap_content"
+            android:text="用户名："
+            android:gravity="center"
+            app:layout_constraintRight_toLeftOf="@+id/activity_login_et_username"
+            android:layout_width="100dp"/>
+    <EditText
+            android:id="@+id/activity_login_et_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/activity_login_tv_username"
+            android:inputType="text"
+            android:width="200dp"/>
+
+    <TextView
+            android:id="@+id/activity_login_tv_password"
+            android:layout_height="wrap_content"
+            android:text="密码："
+            android:gravity="center"
+            android:layout_width="100dp"
+            app:layout_constraintRight_toLeftOf="@+id/activity_login_et_password"
+            app:layout_constraintTop_toBottomOf="@+id/activity_login_tv_username"
+    />
+    <EditText
+            android:id="@+id/activity_login_et_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/activity_login_tv_password"
+            app:layout_constraintTop_toBottomOf="@+id/activity_login_et_username"
+            android:inputType="text"
+            android:width="200dp"/>
+
+    <TextView
+            android:id="@+id/activity_login_tv_verify_code"
+            android:layout_height="wrap_content"
+            android:text="验证码："
+            android:gravity="center"
+            app:layout_constraintRight_toLeftOf="@+id/activity_login_et_verify_code"
+            app:layout_constraintTop_toBottomOf="@+id/activity_login_tv_password"
+            android:layout_width="100dp"/>
+    <EditText
+            android:id="@+id/activity_login_et_verify_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/activity_login_tv_verify_code"
+            app:layout_constraintTop_toBottomOf="@+id/activity_login_et_password"
+            android:inputType="text"
+            android:width="200dp"/>
+
+</android.support.constraint.ConstraintLayout>
