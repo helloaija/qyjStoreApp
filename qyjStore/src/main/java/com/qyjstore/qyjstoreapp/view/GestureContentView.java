@@ -208,18 +208,35 @@ public class GestureContentView extends ViewGroup {
     }
 
     /**
-     * 延迟重置
+     * 延迟重置，延迟重置的时间段内不允许绘制。重置完成了，恢复到之前的可绘制状态。
+     * 如果重置之前不可绘制，重置之后也必须是不可绘制
      * @param delayMillis 延迟时间
      */
     public void reset(long delayMillis) {
+        boolean flag = this.isDrawEnable;
         this.setDrawEnable(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                reset();
-               setDrawEnable(true);
-            }
-        }, delayMillis);
+        new Handler().postDelayed(new ResetTask(flag), delayMillis);
+    }
+
+    /**
+     * 重置task
+     */
+    private class ResetTask implements Runnable {
+        /** 重置之后是否可绘制 */
+        private boolean drawEnable = true;
+
+        public ResetTask() {
+        }
+
+        public ResetTask(boolean drawEnable) {
+            this.drawEnable = drawEnable;
+        }
+
+        @Override
+        public void run() {
+            reset();
+            setDrawEnable(this.drawEnable);
+        }
     }
 
     /**

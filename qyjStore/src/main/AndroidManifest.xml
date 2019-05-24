@@ -19,12 +19,17 @@
 
         <!--主框架-->
         <activity android:name="com.qyjstore.qyjstoreapp.activity.MainActivity"
-                  android:launchMode="singleTask">
+                  android:launchMode="singleTask" android:screenOrientation="portrait">
         </activity>
 
         <!--设置手势密码-->
         <activity android:name="com.qyjstore.qyjstoreapp.activity.GestureEditActivity"
                   android:screenOrientation="portrait">
+        </activity>
+
+        <!--验证手势密码-->
+        <activity android:name="com.qyjstore.qyjstoreapp.activity.GestureVerifyActivity"
+                  android:launchMode="singleTop" android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>
