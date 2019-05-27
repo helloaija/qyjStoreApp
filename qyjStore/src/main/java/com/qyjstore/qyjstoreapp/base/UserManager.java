@@ -64,7 +64,6 @@ public class UserManager {
             HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_GET_USER_INFO, null, new HttpUtil.CallBack() {
                 @Override
                 public void onSuccess(JSONObject json) {
-                    userLoadFinish = 1;
                     try {
                         if ("0000".equals(json.getString("resultCode"))) {
                             JSONObject userInfoJson = json.getJSONObject("result");
@@ -75,6 +74,7 @@ public class UserManager {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    userLoadFinish = 1;
                 }
 
                 @Override
@@ -82,14 +82,15 @@ public class UserManager {
                     if (AppUtil.handleLoginExpire(context, responseCode)) {
                         return;
                     }
-                    userLoadFinish = 1;
+
                     ToastUtil.makeText(context, "系统异常");
+                    userLoadFinish = 2;
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            userLoadFinish = 1;
             ToastUtil.makeText(context, "系统异常");
+            userLoadFinish = 3;
         }
 
 
