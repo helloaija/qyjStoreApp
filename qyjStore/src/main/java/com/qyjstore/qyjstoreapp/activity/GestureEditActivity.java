@@ -2,12 +2,14 @@ package com.qyjstore.qyjstoreapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import com.qyjstore.qyjstoreapp.R;
+import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 import com.qyjstore.qyjstoreapp.view.GestureContentView;
 import com.qyjstore.qyjstoreapp.view.GestureIndicatorView;
 
@@ -77,6 +79,12 @@ public class GestureEditActivity extends AppCompatActivity {
                         return;
                     }
                     tipTextView.setText(R.string.gesture_label_suc);
+
+                    SharedPreferences sp = getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("gesturePassword", password);
+                    editor.apply();
+
                     // 跳转到首页
                     Intent intent = new Intent(GestureEditActivity.this, MainActivity.class);
                     startActivity(intent);

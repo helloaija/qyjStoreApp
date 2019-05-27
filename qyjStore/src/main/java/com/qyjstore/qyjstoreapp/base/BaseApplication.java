@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.qyjstore.qyjstoreapp.activity.GestureVerifyActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class BaseApplication extends Application {
     private static BaseApplication instance;
     /** 保存打开的activity */
     List<Activity> activityList = new ArrayList<>();
+    /** 当前activity */
+    private WeakReference<Activity> topActivity;
 
     @Override
     public void onCreate() {
@@ -60,6 +63,17 @@ public class BaseApplication extends Application {
         return this.activityList;
     }
 
+    /**
+     * 获取当前activity
+     * @return
+     */
+    public Activity getTopActivity() {
+        if (topActivity == null) {
+            return null;
+        }
+        return topActivity.get();
+    }
+
     private class BaseActivityLifecycleCallbacks implements ActivityLifecycleCallbacks {
         /** 切换到后台的时间点 */
         private long backgrounderTimeAt = 0L;
@@ -75,6 +89,7 @@ public class BaseApplication extends Application {
 
         @Override
         public void onActivityStarted(Activity activity) {
+            topActivity = new WeakReference<>(activity);
 
             if (this.activityCount == 0) {
                 // backgrounderTimeAt等于0，说明是启动app。不等于0是后台切换到前台
@@ -86,7 +101,7 @@ public class BaseApplication extends Application {
                     }
                 }
             }
-            this.activityCount ++;
+            this.activityCount++;
         }
 
         @Override
@@ -99,7 +114,7 @@ public class BaseApplication extends Application {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            this.activityCount --;
+            this.activityCount--;
             if (this.activityCount == 0) {
                 this.backgrounderTimeAt = System.currentTimeMillis();
             }

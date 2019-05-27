@@ -1,8 +1,12 @@
 package com.qyjstore.qyjstoreapp.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import com.qyjstore.qyjstoreapp.activity.LoginActivity;
+import org.json.JSONObject;
 
 /**
  * @Author shitl
@@ -27,5 +31,21 @@ public class AppUtil {
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm;
+    }
+
+    /**
+     * 登录过期跳转登录页面
+     * @param mContext
+     * @param responseCode
+     * @return
+     */
+    public static Boolean handleLoginExpire(final Context mContext, int responseCode) {
+        if (401 == responseCode) {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent);
+            return true;
+        }
+
+        return false;
     }
 }

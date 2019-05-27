@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import com.qyjstore.qyjstoreapp.R;
+import com.qyjstore.qyjstoreapp.base.UserManager;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 
 import java.lang.ref.WeakReference;
@@ -62,7 +63,7 @@ public class InitialActivity extends AppCompatActivity {
             return;
         }
         // 根据authentication获取用户信息
-        long userId = 0;
+        long userId = UserManager.getInstance().loadAndGetUser(InitialActivity.this).getUserId();
         // 登录过期跳到登录页
         if (userId == 0) {
             mHandler.sendEmptyMessageDelayed(TO_LOGIN, GO_DELAY_MILLIS);
@@ -83,7 +84,7 @@ public class InitialActivity extends AppCompatActivity {
             mHandler.sendEmptyMessageDelayed(TO_GESTURE_SETTING, GO_DELAY_MILLIS);
             SharedPreferences.Editor spEditor = sp.edit();
             spEditor.putLong("userId", userId);
-            spEditor.commit();
+            spEditor.apply();
             return;
         }
 
@@ -143,7 +144,9 @@ public class InitialActivity extends AppCompatActivity {
      * 跳转到验证手势密码页面
      */
     private void toToGestureVerify() {
-        Intent intent = new Intent(InitialActivity.this, GestureVerifyActivity.class);
+        Intent intent = new Intent(InitialActivity.this, MainActivity.class);
+        startActivity(intent);
+        intent = new Intent(InitialActivity.this, GestureVerifyActivity.class);
         startActivity(intent);
     }
 

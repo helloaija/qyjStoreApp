@@ -1,6 +1,9 @@
 package com.qyjstore.qyjstoreapp.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+import com.qyjstore.qyjstoreapp.base.BaseApplication;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -18,22 +21,30 @@ public class HttpUtil {
         URL url = new URL(requestUrl + concatParam(paramMap));
         HttpURLConnection conn = null;
         try {
+            SharedPreferences sp = BaseApplication.getInstance().getApplicationContext()
+                    .getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
+            String authentication = sp.getString("authentication", "");
             conn = (HttpURLConnection) url.openConnection();
 
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
-            String result = convertStreamToString(conn.getInputStream());
+            conn.setRequestProperty("Authorization", "Bearer " + authentication);
+
             if (conn.getResponseCode() != 200) {
                 if (callBack != null) {
-                    callBack.onError(conn.getResponseCode(), result);
+                    callBack.onError(conn.getResponseCode(), null);
                 }
                 return null;
             }
 
+            String result = convertStreamToString(conn.getInputStream());
+
             JSONObject json = new JSONObject(result);
-            callBack.onSuccess(json);
+            if (callBack != null) {
+                callBack.onSuccess(json);
+            }
             return json;
         } finally {
             if (conn != null) {
@@ -51,6 +62,11 @@ public class HttpUtil {
         URL url = new URL(requestUrl + concatParam(paramMap));
         HttpURLConnection conn = null;
         try {
+            SharedPreferences sp = BaseApplication.getInstance().getApplicationContext()
+                    .getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
+            String authentication = sp.getString("authentication", "");
+            conn = (HttpURLConnection) url.openConnection();
+
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("POST");
@@ -58,20 +74,25 @@ public class HttpUtil {
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("Authorization", "Bearer " + authentication);
             conn.setUseCaches(false);
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
-            String result = convertStreamToString(conn.getInputStream());
+
             if (conn.getResponseCode() != 200) {
                 if (callBack != null) {
-                    callBack.onError(conn.getResponseCode(), result);
+                    callBack.onError(conn.getResponseCode(), null);
                 }
                 return null;
             }
 
+            String result = convertStreamToString(conn.getInputStream());
+
             JSONObject json = new JSONObject(result);
-            callBack.onSuccess(json);
+            if (callBack != null) {
+                callBack.onSuccess(json);
+            }
             return json;
         } finally {
             if (conn != null) {
@@ -82,11 +103,13 @@ public class HttpUtil {
 
     public static void doGetAsyn(final String requestUrl, final Map<String, String> paramMap, final CallBack callBack) {
         new Thread() {
+            @Override
             public void run() {
                 try {
                     doGet(requestUrl, paramMap, callBack);
                 } catch (Exception e) {
-                    Log.d("HttpUtil", "doPostAsyn error:" + e.getStackTrace());
+                    e.printStackTrace();
+                    Log.d("HttpUtil", "doGetAsyn error:" + e.getStackTrace());
                 }
 
             }
@@ -141,7 +164,7 @@ public class HttpUtil {
                 if (!paramSb.toString().endsWith("?")) {
                     paramSb.append("&");
                 }
-                paramSb.append(entry.getKey()).append(entry.getValue());
+                paramSb.append(entry.getKey()).append("=").append(entry.getValue());
             }
         }
 

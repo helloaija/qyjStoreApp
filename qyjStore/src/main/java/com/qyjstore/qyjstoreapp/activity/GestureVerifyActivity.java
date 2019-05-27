@@ -1,6 +1,8 @@
 package com.qyjstore.qyjstoreapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseApplication;
+import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 import com.qyjstore.qyjstoreapp.utils.ToastUtil;
 import com.qyjstore.qyjstoreapp.view.GestureContentView;
 import com.qyjstore.qyjstoreapp.view.GestureIndicatorView;
@@ -40,7 +43,8 @@ public class GestureVerifyActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.password = "12357";
+        SharedPreferences sp = getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
+        this.password = sp.getString("gesturePassword", null);
 
         this.setContentView(R.layout.activity_gesture_verify);
         this.tipTextView = findViewById(R.id.activity_gesture_verify_tv_tip);
