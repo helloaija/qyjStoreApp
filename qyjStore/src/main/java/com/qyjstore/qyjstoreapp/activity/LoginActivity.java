@@ -10,15 +10,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.alibaba.fastjson.JSONObject;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseActivity;
 import com.qyjstore.qyjstoreapp.base.UserManager;
+import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 import com.qyjstore.qyjstoreapp.utils.HttpUtil;
 import com.qyjstore.qyjstoreapp.utils.ToastUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setLoginBtnOnClickListener() {
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        this.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = userNameEt.getText().toString().trim();
@@ -77,24 +77,18 @@ public class LoginActivity extends BaseActivity {
                     public void onSuccess(JSONObject json) {
                         Looper.prepare();
                         if ("0000".equals(getResultCode(json))) {
-                            try {
-                                Log.d("LoginActivity", "login success" + json);
-                                // 登录成功
-                                SharedPreferences sp = getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("authentication", json.getString("result"));
-                                editor.apply();
+                            Log.d("LoginActivity", "login success" + json);
+                            // 登录成功
+                            SharedPreferences sp = getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("authentication", json.getString("result"));
+                            editor.apply();
 
-                                toPage();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            return;
+                            // 加载用户数据
+                            loadUserInfo();
                         } else {
                             ToastUtil.makeText(LoginActivity.this, getResultMessage(json));
                         }
-
-
                         Looper.loop();
                     }
 
@@ -111,16 +105,55 @@ public class LoginActivity extends BaseActivity {
     }
 
     /**
+     * 加载用户数据
+     */
+    private void loadUserInfo() {
+        // 根据authentication加载用户数据
+        UserManager.getInstance().loadUserInfo(new HttpUtil.CallBack() {
+            @Override
+            public void onSuccess(JSONObject json) {
+                Looper.prepare();
+                if (!"0000".equals(getResultCode(json))) {
+                    ToastUtil.makeText(LoginActivity.this, getResultMessage(json));
+                } else {
+                    // 判断跳转到哪个页面
+                    toPage();
+                }
+                Looper.loop();
+            }
+
+            @Override
+            public void onError(int responseCode, String msg) {
+                Looper.prepare();
+                if (AppUtil.handleLoginExpire(LoginActivity.this, responseCode)) {
+                    Looper.loop();
+                    return;
+                }
+
+                ToastUtil.makeText(LoginActivity.this, "系统异常");
+                Looper.loop();
+            }
+        });
+    }
+
+    /**
      * 跳转页面
      */
     private void toPage() {
         SharedPreferences sp = getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
         long oldUserId = sp.getLong("userId", 0);
         String gesturePassword = sp.getString("gesturePassword", null);
-        long userId = UserManager.getInstance().loadAndGetUser(LoginActivity.this).getUserId();
 
+        long userId = UserManager.getInstance().getUser().getUserId();
 
-        if (oldUserId == 0 || oldUserId != userId || TextUtils.isEmpty(gesturePassword)) {
+        SharedPreferences.Editor editor = sp.edit();
+        if (oldUserId == 0 || oldUserId != userId) {
+            editor.putLong("userId", userId);
+            editor.putString("gesturePassword", "");
+            // 设置手势密码
+            Intent intent = new Intent(LoginActivity.this, GestureEditActivity.class);
+            startActivity(intent);
+        } else if (TextUtils.isEmpty(gesturePassword)) {
             // 设置手势密码
             Intent intent = new Intent(LoginActivity.this, GestureEditActivity.class);
             startActivity(intent);
@@ -132,9 +165,6 @@ public class LoginActivity extends BaseActivity {
             intent = new Intent(LoginActivity.this, GestureVerifyActivity.class);
             startActivity(intent);
         }
-
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putLong("userId", userId);
         editor.putBoolean("isLoginState", true);
         editor.apply();
         finish();

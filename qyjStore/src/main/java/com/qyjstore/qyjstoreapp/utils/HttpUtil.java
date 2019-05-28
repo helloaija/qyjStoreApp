@@ -3,8 +3,9 @@ package com.qyjstore.qyjstoreapp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qyjstore.qyjstoreapp.base.BaseApplication;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -41,7 +42,7 @@ public class HttpUtil {
 
             String result = convertStreamToString(conn.getInputStream());
 
-            JSONObject json = new JSONObject(result);
+            JSONObject json = JSON.parseObject(result);
             if (callBack != null) {
                 callBack.onSuccess(json);
             }
@@ -89,7 +90,7 @@ public class HttpUtil {
 
             String result = convertStreamToString(conn.getInputStream());
 
-            JSONObject json = new JSONObject(result);
+            JSONObject json = JSON.parseObject(result);
             if (callBack != null) {
                 callBack.onSuccess(json);
             }

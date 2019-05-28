@@ -1,8 +1,8 @@
 package com.qyjstore.qyjstoreapp.base;
 
 import android.support.v7.app.AppCompatActivity;
+import com.alibaba.fastjson.JSONObject;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * @Author shitl
@@ -16,29 +16,21 @@ public class BaseActivity extends AppCompatActivity {
      * @return
      */
     public String getResultCode(JSONObject json) {
-        try {
-            if (json == null) {
-                return null;
-            }
-            return json.getString("resultCode");
-        } catch (JSONException e) {
-            return "";
+        if (json == null) {
+            return null;
         }
+        return json.getString("resultCode");
     }
 
     /**
-     * resultMessage
+     * 获取系统后台返回的resultMessage
      * @param json
      * @return
      */
     public String getResultMessage(JSONObject json) {
-        try {
-            if (json == null) {
-                return null;
-            }
-            return json.getString("resultMessage");
-        } catch (JSONException e) {
-            return "";
+        if (json == null) {
+            return null;
         }
+        return json.getString("resultMessage");
     }
 }

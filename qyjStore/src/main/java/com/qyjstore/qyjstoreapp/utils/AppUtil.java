@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import com.qyjstore.qyjstoreapp.activity.LoginActivity;
+import com.qyjstore.qyjstoreapp.base.BaseApplication;
 import org.json.JSONObject;
 
 /**
@@ -39,7 +40,7 @@ public class AppUtil {
      * @param responseCode
      * @return
      */
-    public static Boolean handleLoginExpire(final Context mContext, int responseCode) {
+    public static Boolean handleLoginExpire(final Activity mContext, int responseCode) {
         if (401 == responseCode) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);

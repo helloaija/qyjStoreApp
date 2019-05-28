@@ -2,17 +2,23 @@ package com.qyjstore.qyjstoreapp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.bean.SellOrderBean;
+import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
 import com.qyjstore.qyjstoreapp.utils.DateUtil;
+import com.qyjstore.qyjstoreapp.utils.HttpUtil;
 import com.qyjstore.qyjstoreapp.utils.NumberUtil;
 
 import java.math.BigDecimal;
@@ -26,25 +32,55 @@ import java.util.List;
  * @date 2019-05-17
  */
 public class MainSellFragment extends Fragment {
+    private EditText queryEt;
+    private Button queryBtn;
+    /** 销售单数据 */
+    private List<SellOrderBean> itemList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_sell, container, false);
 
-        int len = 20;
-        List<SellOrderBean> itemList = new ArrayList<>();
-        for (int i = 1; i <= len; i ++) {
-            SellOrderBean bean = new SellOrderBean("用户名" + i, new Date());
-            bean.setOrderAmount(new BigDecimal(7890.654321));
-            bean.setOrderStatus("UNPAY");
-            bean.setOrderNumber("20190520123456");
-            bean.setProfitAmount(new BigDecimal(147.123456));
-            itemList.add(bean);
-        }
-        // ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_expandable_list_item_1, orders);
-        ListView listView = view.findViewById(R.id.fragment_main_sell_lv_sell);
-        listView.setAdapter(new SellOrderItemAdapter(view.getContext(), itemList));
+        queryEt = view.findViewById(R.id.fragment_main_sell_et_query);
+        queryBtn = view.findViewById(R.id.fragment_main_sell_btn_query);
 
+        ListView listView = view.findViewById(R.id.fragment_main_sell_lv_sell);
+        listView.setAdapter(new SellOrderItemAdapter(view.getContext(), this.itemList));
+
+        queryBtnSetOnClickListener();
+
+        this.loadSellOrderData();
         return view;
+    }
+
+    private void queryBtnSetOnClickListener() {
+        queryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    /**
+     * 加载数据
+     */
+    private void loadSellOrderData() {
+        HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_LIST_SELL_ORDER, null, new HttpUtil.CallBack() {
+            @Override
+            public void onSuccess(JSONObject json) {
+                if ("0000".equals(json.getString("resultCode"))) {
+                    String recordListStr = json.getJSONObject("result").getJSONObject("pageBean").getString("recordList");
+                    List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
+                    itemList.addAll(sellOrderBeanList);
+                }
+            }
+
+            @Override
+            public void onError(int responseCode, String msg) {
+
+            }
+        });
     }
 
     class SellOrderItemAdapter extends BaseAdapter {
