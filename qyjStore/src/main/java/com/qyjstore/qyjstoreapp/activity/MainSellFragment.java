@@ -2,6 +2,7 @@ package com.qyjstore.qyjstoreapp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,6 +37,9 @@ public class MainSellFragment extends Fragment {
     private Button queryBtn;
     /** 销售单数据 */
     private List<SellOrderBean> itemList = new ArrayList<>();
+    private BaseAdapter adapter;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,20 +48,35 @@ public class MainSellFragment extends Fragment {
         queryEt = view.findViewById(R.id.fragment_main_sell_et_query);
         queryBtn = view.findViewById(R.id.fragment_main_sell_btn_query);
 
+        adapter = new SellOrderItemAdapter(view.getContext(), this.itemList);
+        handler = new Handler();
         ListView listView = view.findViewById(R.id.fragment_main_sell_lv_sell);
-        listView.setAdapter(new SellOrderItemAdapter(view.getContext(), this.itemList));
+        listView.setAdapter(adapter);
 
         queryBtnSetOnClickListener();
+        createRunnable();
 
         this.loadSellOrderData();
         return view;
     }
 
+    private void createRunnable() {
+        this.runnable = new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        };
+    }
+
+    /**
+     * 查询按钮监听点击事件
+     */
     private void queryBtnSetOnClickListener() {
         queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadSellOrderData();
             }
         });
     }
@@ -73,12 +92,13 @@ public class MainSellFragment extends Fragment {
                     String recordListStr = json.getJSONObject("result").getJSONObject("pageBean").getString("recordList");
                     List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
                     itemList.addAll(sellOrderBeanList);
+                    handler.post(runnable);
                 }
             }
 
             @Override
             public void onError(int responseCode, String msg) {
-
+                System.out.println(responseCode + msg);
             }
         });
     }
@@ -127,14 +147,17 @@ public class MainSellFragment extends Fragment {
             orderAmountScaleTv.setText(meContext.getString(R.string.text_split_point) + NumberUtil.getScale(itemList.get(position).getOrderAmount(), 2));
             // 订单利润
             TextView profitAmountLongTv = convertView.findViewById(R.id.item_main_sell_tv_profitAmount_long);
-            profitAmountLongTv.setText(meContext.getString(R.string.text_rmb_sign) + String.valueOf(itemList.get(position).getProfitAmount().longValue()));
+            BigDecimal profitAmount = itemList.get(position).getProfitAmount() == null ? new BigDecimal("0.00") : itemList.get(position).getProfitAmount();
+            profitAmountLongTv.setText(meContext.getString(R.string.text_rmb_sign) + String.valueOf(profitAmount.longValue()));
             TextView profitAmountScaleTv = convertView.findViewById(R.id.item_main_sell_tv_profitAmount_scale);
-            profitAmountScaleTv.setText(meContext.getString(R.string.text_split_point) + NumberUtil.getScale(itemList.get(position).getProfitAmount(), 2));
+            profitAmountScaleTv.setText(meContext.getString(R.string.text_split_point) + NumberUtil.getScale(profitAmount, 2));
             // 订单状态
             TextView orderStatusTv = convertView.findViewById(R.id.item_main_sell_tv_orderStatus);
             orderStatusTv.setText(itemList.get(position).getOrderStatus());
             return convertView;
         }
     }
+
+
 
 }
