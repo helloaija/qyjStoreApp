@@ -9,6 +9,8 @@ import java.util.Date;
  * @date 2019-05-20
  */
 public class SellOrderBean {
+    private Long id;
+
     /** 订单编号 */
     private String orderNumber;
     /** 购买人 */
@@ -76,5 +78,13 @@ public class SellOrderBean {
 
     public void setProfitAmount(BigDecimal profitAmount) {
         this.profitAmount = profitAmount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

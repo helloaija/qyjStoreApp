@@ -40,7 +40,7 @@ public class AppUtil {
      * @param responseCode
      * @return
      */
-    public static Boolean handleLoginExpire(final Activity mContext, int responseCode) {
+    public static Boolean handleLoginExpire(final Context mContext, int responseCode) {
         if (401 == responseCode) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);

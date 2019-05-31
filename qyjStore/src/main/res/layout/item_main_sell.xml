@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="5dp"
@@ -14,49 +14,50 @@
     <TextView
             android:id="@+id/item_main_sell_tv_orderNumber"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.4"
+            android:layout_width="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
     />
 
     <!--购买人-->
     <TextView
             android:id="@+id/item_main_sell_tv_userName"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.3"
+            android:layout_width="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_orderNumber"
+            app:layout_constraintRight_toLeftOf="@id/item_main_sell_tv_orderTime"
+            app:layout_constraintTop_toTopOf="parent"
     />
 
     <!--订单时间-->
     <TextView
             android:id="@+id/item_main_sell_tv_orderTime"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_percent="0.3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
     />
 
     <!--订单金额-->
     <TextView
             android:id="@+id/item_main_sell_tv_orderAmount_long"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_main_sell_tv_orderNumber"
-            app:layout_constraintBottom_toBottomOf="parent"
     />
     <TextView
             android:id="@+id/item_main_sell_tv_orderAmount_scale"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:layout_marginBottom="3dp"
             app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_orderAmount_long"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_sell_tv_orderAmount_long"
+    />
+
+
 
     <TextView
             android:id="@+id/item_main_sell_tv_profitAmountLabel"
@@ -65,78 +66,40 @@
             android:textSize="10sp"
             android:text="@string/text_lr"
             android:layout_marginBottom="3dp"
-            app:layout_constraintRight_toLeftOf="@id/item_main_sell_tv_userName"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/item_main_sell_tv_profitAmount_long"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_sell_tv_orderAmount_long"
     />
     <!--订单利润-->
     <TextView
             android:id="@+id/item_main_sell_tv_profitAmount_long"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_profitAmountLabel"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_orderAmount_scale"
+            app:layout_constraintRight_toLeftOf="@+id/item_main_sell_tv_orderStatus"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_sell_tv_orderAmount_long"
     />
     <TextView
             android:id="@+id/item_main_sell_tv_profitAmount_scale"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
             android:textSize="12sp"
             app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_profitAmount_long"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_sell_tv_orderAmount_long"
     />
+
+
 
     <!--订单状态-->
     <TextView
             android:id="@+id/item_main_sell_tv_orderStatus"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             app:layout_constraintWidth_percent="0.3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_sell_tv_orderAmount_long"
     />
 
-
-    <!--&lt;!&ndash;订单编号&ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:id="@+id/item_main_sell_tv_orderNumber"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingLeft="8dp"-->
-    <!--android:textColor="#1D1D1C"-->
-    <!--android:textSize="20sp"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_marginTop="7dp"-->
-    <!--android:layout_marginStart="16dp"-->
-    <!--app:layout_constraintWidth_percent="0.3"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintLeft_toLeftOf="parent"/>-->
-
-    <!--&lt;!&ndash;购买人&ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:id="@+id/item_main_sell_tv_userName"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingLeft="8dp"-->
-    <!--android:textColor="#1D1D1C"-->
-    <!--android:textSize="20sp"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_marginTop="7dp"-->
-    <!--android:layout_marginStart="16dp"-->
-    <!--app:layout_constraintWidth_percent="0.3"-->
-    <!--app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_orderNumber"-->
-    <!--/>-->
-
-    <!--&lt;!&ndash;订单时间&ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:id="@+id/item_main_sell_tv_orderTime"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingLeft="8px"-->
-    <!--android:textColor="#B4B4B9"-->
-    <!--android:textSize="14sp"-->
-    <!--app:layout_constraintWidth_percent="0.3"-->
-    <!--app:layout_constraintLeft_toRightOf="@id/item_main_sell_tv_userName"-->
-    <!--/>-->
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.qyjstore.qyjstoreapp.activity.GestureVerifyActivity;
+import com.qyjstore.qyjstoreapp.activity.LoginActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -96,8 +97,11 @@ public class BaseApplication extends Application {
                 if (this.backgrounderTimeAt != 0) {
                     // 后台运行超过shiftSpaceMillis，就需要重新解锁
                     if (System.currentTimeMillis() - backgrounderTimeAt > shiftSpaceMillis) {
-                        Intent intent = new Intent(activity, GestureVerifyActivity.class);
-                        startActivity(intent);
+                        if (!(activity instanceof LoginActivity)) {
+                            Intent intent = new Intent(activity, GestureVerifyActivity.class);
+                            startActivity(intent);
+                        }
+
                     }
                 }
             }
