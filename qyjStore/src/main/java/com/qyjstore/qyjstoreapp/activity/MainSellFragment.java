@@ -1,12 +1,14 @@
 package com.qyjstore.qyjstoreapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -195,7 +197,7 @@ public class MainSellFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-            SellOrderBean bean = itemList.get(position);
+            final SellOrderBean bean = itemList.get(position);
             ((HoldView) viewHolder).orderNumberTv.setText(bean.getOrderNumber());
             ((HoldView) viewHolder).userNameTv.setText(bean.getUserName());
             ((HoldView) viewHolder).orderTimeTv.setText(DateUtil.parseDateToString(bean.getOrderTime(), DateUtil.DATE_FORMAT_DATE));
@@ -209,10 +211,20 @@ public class MainSellFragment extends Fragment {
 
             ((HoldView) viewHolder).orderStatusTv.setText(EnumUtil.OrderStatusEnum.getTextByValue(bean.getOrderStatus()));
 
+            View mItemView = viewHolder.itemView;
             if (position != 0) {
                 // 设置间距
-                ((RecyclerView.LayoutParams) viewHolder.itemView.getLayoutParams()).topMargin = 20;
+                ((RecyclerView.LayoutParams) mItemView.getLayoutParams()).topMargin = 20;
             }
+
+            mItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("MainSellFragment", "toEdit:" + bean.getId());
+                    Intent intent = new Intent(context, SellOrderInfoActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override
