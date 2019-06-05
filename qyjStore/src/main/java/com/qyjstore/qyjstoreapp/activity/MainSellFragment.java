@@ -49,6 +49,7 @@ public class MainSellFragment extends Fragment {
     private XRecyclerView recyclerView;
     /** 销售单数据 */
     private List<SellOrderBean> itemList = new ArrayList<>();
+    private SellOrderItemAdapter adapter;
     /** 当前页 */
     private int pageIndex = 1;
     /** 总页数 */
@@ -68,7 +69,7 @@ public class MainSellFragment extends Fragment {
         queryBtn = view.findViewById(R.id.fragment_main_sell_btn_query);
         recyclerView = view.findViewById(R.id.fragment_main_sell_xrv);
 
-        SellOrderItemAdapter adapter = new SellOrderItemAdapter(view.getContext(), this.itemList);
+        adapter = new SellOrderItemAdapter(view.getContext(), this.itemList);
         recyclerView.setAdapter(adapter);
 
         loadItemHandler = new Handler();
@@ -103,6 +104,7 @@ public class MainSellFragment extends Fragment {
                 pageIndex = 1;
                 pageCount = 1;
                 itemList.clear();
+                adapter.notifyDataSetChanged();
                 loadSellOrderData();
             }
 

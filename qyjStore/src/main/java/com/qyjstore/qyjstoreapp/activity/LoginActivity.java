@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
+import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseActivity;
 import com.qyjstore.qyjstoreapp.base.UserManager;
@@ -29,6 +31,8 @@ import java.util.Map;
  * @date 2019-05-22
  */
 public class LoginActivity extends BaseActivity {
+
+    private QMUITopBarLayout topBar;
     private EditText userNameEt;
     private EditText passowrdEt;
     private EditText verifyCodeEt;
@@ -39,12 +43,29 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
 
+        this.topBar = findViewById(R.id.activity_login_topbar);
         this.userNameEt = findViewById(R.id.activity_login_et_username);
         this.passowrdEt = findViewById(R.id.activity_login_et_password);
         this.verifyCodeEt = findViewById(R.id.activity_login_et_verify_code);
         this.btnLogin = findViewById(R.id.activity_login_bt_login);
 
+        this.setBgAlpha();
+        this.initTopBar();
         this.setLoginBtnOnClickListener();
+    }
+
+    /**
+     * 设置背景透明度
+     */
+    private void setBgAlpha() {
+        this.findViewById(R.id.activity_login).getBackground().setAlpha(100);
+        this.findViewById(R.id.activity_login_gl).getBackground().setAlpha(120);
+        btnLogin.getBackground().setAlpha(200);
+        topBar.getBackground().setAlpha(100);
+    }
+
+    private void initTopBar() {
+        topBar.setTitle("登录");
     }
 
     private void setLoginBtnOnClickListener() {

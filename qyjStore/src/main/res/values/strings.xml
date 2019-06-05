@@ -34,4 +34,7 @@
     <string name="refresh_done">正在刷新</string>
     <string name="refreshing">正在刷新...</string>
 
+    <string name="sell_tab_order">销售单信息</string>
+    <string name="sell_tab_product">销售产品信息</string>
+
 </resources>

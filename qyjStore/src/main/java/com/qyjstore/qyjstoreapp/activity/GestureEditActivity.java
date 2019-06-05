@@ -73,7 +73,7 @@ public class GestureEditActivity extends AppCompatActivity {
                     }
                     if (!comfirePassword.equals(password)) {
                         tipTextView.setText(R.string.gesture_label_comfirm_wrong);
-                        tipTextView.setTextColor(getResources().getColor(R.color.colorRed, null));
+                        tipTextView.setTextColor(getResources().getColor(R.color.app_color_theme_1, null));
                         gestureContent.setStatus(GestureContentView.STATUS_WRONG);
                         gestureContent.reset(1000);
                         return;
@@ -114,7 +114,7 @@ public class GestureEditActivity extends AppCompatActivity {
 
         if (password.length() <= 3) {
             tipTextView.setText(R.string.gesture_label_len);
-            tipTextView.setTextColor(getResources().getColor(R.color.colorRed, null));
+            tipTextView.setTextColor(getResources().getColor(R.color.app_color_theme_1, null));
             return false;
         }
 
