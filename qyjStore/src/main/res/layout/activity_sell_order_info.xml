@@ -7,43 +7,63 @@
         android:layout_height="match_parent"
         android:background="#f6f6f6">
 
-    <TextView
-            android:id="@+id/activity_sell_order_tv_tab_order"
+    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+            android:id="@+id/activity_sell_order_info_topbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="0.5"
-            android:gravity="center"
-            android:text="@string/sell_tab_order"
-            android:labelFor="@+id/activity_login_et_username"
-            app:layout_constraintRight_toLeftOf="@+id/activity_sell_order_tv_tab_product"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-    />
-    <TextView
-            android:id="@+id/activity_sell_order_tv_tab_product"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="0.5"
-            android:gravity="center"
-            android:text="@string/sell_tab_product"
-            android:labelFor="@+id/activity_login_et_username"
-            app:layout_constraintLeft_toRightOf="@+id/activity_sell_order_tv_tab_order"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-    />
+            android:fitsSystemWindows="true"/>
 
-    <ImageView
-            android:id="@+id/activity_sell_order_cursor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="matrix"
-            android:src="@drawable/cursor"
-            app:layout_constraintTop_toBottomOf="@+id/activity_sell_order_tv_tab_order"
-            app:layout_constraintLeft_toLeftOf="@+id/activity_sell_order_tv_tab_order"
-            app:layout_constraintRight_toRightOf="@+id/activity_sell_order_tv_tab_order"
-    />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            android:background="@color/qmui_config_color_white"
+            app:layout_constraintTop_toBottomOf="@+id/activity_sell_order_info_topbar"
+            app:layout_constraintBottom_toTopOf="@+id/activity_sell_order_info_floatlayout"
+    >
 
+        <com.qmuiteam.qmui.widget.QMUITabSegment
+                android:id="@+id/activity_sell_order_info_tabSegment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/tab_panel_bg"/>
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/activity_sell_order_info_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fitsSystemWindows="true"/>
+    </LinearLayout>
+
+    <com.qmuiteam.qmui.widget.QMUIFloatLayout
+            android:id="@+id/activity_sell_order_info_floatlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:background="@drawable/qmui_list_item_bg_with_border_top"
+            app:qmui_childHorizontalSpacing="20dp"
+            app:qmui_childVerticalSpacing="20dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+    >
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_sell_order_info_editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="编辑"
+                app:qmui_radius="4dp"
+        />
+    </com.qmuiteam.qmui.widget.QMUIFloatLayout>
 
 </android.support.constraint.ConstraintLayout>
