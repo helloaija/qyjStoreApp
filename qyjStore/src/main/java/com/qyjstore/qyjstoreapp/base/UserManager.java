@@ -1,10 +1,15 @@
 package com.qyjstore.qyjstoreapp.base;
 
-import android.util.Log;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qyjstore.qyjstoreapp.bean.UserInfoBean;
 import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
-import com.qyjstore.qyjstoreapp.utils.HttpUtil;
+import com.qyjstore.qyjstoreapp.utils.OkHttpUtil;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+import java.io.IOException;
 
 /**
  * @Author shitl
@@ -31,23 +36,28 @@ public class UserManager {
         return userInfoBean;
     }
 
+    public void loadUserInfo(final Callback callBack) {
+        OkHttpUtil.doGet(ConfigUtil.SYS_SERVICE_GET_USER_INFO, callBack);
+    }
+
     /**
      * 加载用户数据
      */
-    public void loadUserInfo(final HttpUtil.CallBack callBack) {
-        HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_GET_USER_INFO, null, new HttpUtil.CallBack() {
+    public void loadUserInfo(final OkHttpUtil.HttpCallBack callBack) {
+        OkHttpUtil.doGet(ConfigUtil.SYS_SERVICE_GET_USER_INFO, new OkHttpUtil.HttpCallBack(callBack.getContext()) {
             @Override
-            public void onSuccess(JSONObject json) {
-                if ("0000".equals(json.getString("resultCode"))) {
-                    JSONObject userInfoJson = json.getJSONObject("result");
-                    convertUserJson(userInfoJson);
-                }
-                callBack.onSuccess(json);
+            public void onFailure(Call call, IOException e) {
+                callBack.onFailure(call, e);
             }
 
             @Override
-            public void onError(int responseCode, String msg) {
-                callBack.onError(responseCode, msg);
+            public void onResponse(Call call, Response response, String responseText) {
+                JSONObject responseJson = JSON.parseObject(responseText);
+                if ("0000".equals(responseJson.getString("resultCode"))) {
+                    JSONObject userInfoJson = responseJson.getJSONObject("result");
+                    convertUserJson(userInfoJson);
+                }
+                callBack.onResponse(call, response, responseText);
             }
         });
     }

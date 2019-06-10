@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +22,16 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.bean.SellOrderBean;
-import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
 import com.qyjstore.qyjstoreapp.utils.DateUtil;
 import com.qyjstore.qyjstoreapp.utils.EnumUtil;
-import com.qyjstore.qyjstoreapp.utils.HttpUtil;
 import com.qyjstore.qyjstoreapp.utils.NumberUtil;
+import com.qyjstore.qyjstoreapp.utils.OkHttpUtil;
+import com.qyjstore.qyjstoreapp.utils.ToastUtil;
+import okhttp3.Call;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,27 +145,57 @@ public class MainSellFragment extends Fragment {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userName", queryText);
         paramMap.put("currentPage", String.valueOf(pageIndex));
-        HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_LIST_SELL_ORDER, paramMap, new HttpUtil.CallBack() {
+
+        OkHttpUtil.doGet(ConfigUtil.SYS_SERVICE_LIST_SELL_ORDER, paramMap, new OkHttpUtil.HttpCallBack(context) {
             @Override
-            public void onSuccess(JSONObject json) {
-                if ("0000".equals(json.getString("resultCode"))) {
-                    pageCount = json.getJSONObject("result").getInteger("pageCount");
-                    if (pageIndex > pageCount) {
-                        recyclerView.setNoMore(true);
-                        return;
-                    }
-                    String recordListStr = json.getJSONObject("result").getString("recordList");
-                    List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
-                    itemList.addAll(sellOrderBeanList);
-                    loadItemHandler.post(runnable);
-                }
+            public void onFailure(Call call, IOException e) {
+
             }
 
             @Override
-            public void onError(int responseCode, String msg) {
-                AppUtil.handleLoginExpire(context, responseCode);
+            public void onResponse(Call call, Response response, String responeText) {
+
+                JSONObject json = JSON.parseObject(responeText);
+                if (!"0000".equals(json.getString("resultCode"))) {
+                    Looper.prepare();
+                    ToastUtil.makeText(context, json.getString("resultMessage"));
+                    Looper.loop();
+                    return;
+                }
+
+                pageCount = json.getJSONObject("result").getInteger("pageCount");
+                if (pageIndex > pageCount) {
+                    recyclerView.setNoMore(true);
+                    return;
+                }
+                String recordListStr = json.getJSONObject("result").getString("recordList");
+                List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
+                itemList.addAll(sellOrderBeanList);
+                loadItemHandler.post(runnable);
             }
         });
+
+        // HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_LIST_SELL_ORDER, paramMap, new HttpUtil.CallBack() {
+        //     @Override
+        //     public void onSuccess(JSONObject json) {
+        //         if ("0000".equals(json.getString("resultCode"))) {
+        //             pageCount = json.getJSONObject("result").getInteger("pageCount");
+        //             if (pageIndex > pageCount) {
+        //                 recyclerView.setNoMore(true);
+        //                 return;
+        //             }
+        //             String recordListStr = json.getJSONObject("result").getString("recordList");
+        //             List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
+        //             itemList.addAll(sellOrderBeanList);
+        //             loadItemHandler.post(runnable);
+        //         }
+        //     }
+        //
+        //     @Override
+        //     public void onError(int responseCode, String msg) {
+        //         AppUtil.handleLoginExpire(context, responseCode);
+        //     }
+        // });
     }
 
     /**

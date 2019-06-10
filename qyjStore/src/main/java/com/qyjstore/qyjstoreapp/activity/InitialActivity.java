@@ -8,15 +8,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseActivity;
 import com.qyjstore.qyjstoreapp.base.UserManager;
-import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
-import com.qyjstore.qyjstoreapp.utils.HttpUtil;
+import com.qyjstore.qyjstoreapp.utils.OkHttpUtil;
 import com.qyjstore.qyjstoreapp.utils.ToastUtil;
+import okhttp3.Call;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 /**
@@ -64,28 +67,27 @@ public class InitialActivity extends BaseActivity {
         }
 
         // 根据authentication加载用户信息
-        UserManager.getInstance().loadUserInfo(new HttpUtil.CallBack() {
+        UserManager.getInstance().loadUserInfo(new OkHttpUtil.HttpCallBack(InitialActivity.this) {
             @Override
-            public void onSuccess(JSONObject json) {
-                Looper.prepare();
-                if (!"0000".equals(getResultCode(json))) {
-                    ToastUtil.makeText(InitialActivity.this, getResultMessage(json));
-                } else {
-                    // 判断跳转到哪个页面
-                    toPage();
-                }
-                Looper.loop();
+            public void onFailure(Call call, IOException e) {
             }
 
             @Override
-            public void onError(int responseCode, String msg) {
+            public void onResponse(Call call, Response response, String responeText) {
                 Looper.prepare();
-                if (AppUtil.handleLoginExpire(InitialActivity.this, responseCode)) {
-                    Looper.loop();
-                    return;
+                try {
+                    JSONObject resultJson = JSON.parseObject(responeText);
+                    if (!"0000".equals(getResultCode(resultJson))) {
+                        ToastUtil.makeText(InitialActivity.this, getResultMessage(resultJson));
+                    } else {
+                        UserManager.getInstance().convertUserJson(resultJson.getJSONObject("result"));
+                        // 判断跳转到哪个页面
+                        toPage();
+                    }
+                } catch (Exception e) {
+                    ToastUtil.makeText(InitialActivity.this, "系统异常");
                 }
 
-                ToastUtil.makeText(InitialActivity.this, "系统异常");
                 Looper.loop();
             }
         });

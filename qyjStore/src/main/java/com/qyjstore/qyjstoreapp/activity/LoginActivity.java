@@ -5,23 +5,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseActivity;
 import com.qyjstore.qyjstoreapp.base.UserManager;
-import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
-import com.qyjstore.qyjstoreapp.utils.HttpUtil;
+import com.qyjstore.qyjstoreapp.utils.OkHttpUtil;
 import com.qyjstore.qyjstoreapp.utils.ToastUtil;
+import okhttp3.Call;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,10 +95,16 @@ public class LoginActivity extends BaseActivity {
                 paramMap.put("username", username);
                 paramMap.put("password", password);
                 paramMap.put("validCode", verifyCode);
-                HttpUtil.doPostAsyn(ConfigUtil.SYS_SERVICE_LOGIN, paramMap, new HttpUtil.CallBack() {
+
+                OkHttpUtil.doPost(ConfigUtil.SYS_SERVICE_LOGIN, paramMap, new OkHttpUtil.HttpCallBack(LoginActivity.this) {
                     @Override
-                    public void onSuccess(JSONObject json) {
-                        Looper.prepare();
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response, String responeText) {
+                        JSONObject json = JSON.parseObject(responeText);
                         if ("0000".equals(getResultCode(json))) {
                             Log.d("LoginActivity", "login success" + json);
                             // 登录成功
@@ -108,17 +116,11 @@ public class LoginActivity extends BaseActivity {
                             // 加载用户数据
                             loadUserInfo();
                         } else {
+                            Looper.prepare();
                             ToastUtil.makeText(LoginActivity.this, getResultMessage(json));
+                            Looper.loop();
                         }
-                        Looper.loop();
-                    }
 
-                    @Override
-                    public void onError(int responseCode, String msg) {
-                        Looper.prepare();
-                        ToastUtil.makeText(LoginActivity.this, "系统异常");
-                        Log.d("LoginActivity", "login error, responseCode=" + responseCode + ", msg=" + msg);
-                        Looper.loop();
                     }
                 });
             }
@@ -129,32 +131,32 @@ public class LoginActivity extends BaseActivity {
      * 加载用户数据
      */
     private void loadUserInfo() {
-        // 根据authentication加载用户数据
-        UserManager.getInstance().loadUserInfo(new HttpUtil.CallBack() {
+        // 根据authentication加载用户信息
+        UserManager.getInstance().loadUserInfo(new OkHttpUtil.HttpCallBack(LoginActivity.this) {
             @Override
-            public void onSuccess(JSONObject json) {
-                Looper.prepare();
-                if (!"0000".equals(getResultCode(json))) {
-                    ToastUtil.makeText(LoginActivity.this, getResultMessage(json));
-                } else {
-                    // 判断跳转到哪个页面
-                    toPage();
-                }
-                Looper.loop();
+            public void onFailure(Call call, IOException e) {
             }
 
             @Override
-            public void onError(int responseCode, String msg) {
+            public void onResponse(Call call, Response response, String responeText) {
                 Looper.prepare();
-                if (AppUtil.handleLoginExpire(LoginActivity.this, responseCode)) {
-                    Looper.loop();
-                    return;
+                try {
+                    JSONObject resultJson = JSON.parseObject(responeText);
+                    if (!"0000".equals(getResultCode(resultJson))) {
+                        ToastUtil.makeText(LoginActivity.this, getResultMessage(resultJson));
+                    } else {
+                        UserManager.getInstance().convertUserJson(resultJson.getJSONObject("result"));
+                        // 判断跳转到哪个页面
+                        toPage();
+                    }
+                } catch (Exception e) {
+                    ToastUtil.makeText(LoginActivity.this, "系统异常");
                 }
 
-                ToastUtil.makeText(LoginActivity.this, "系统异常");
                 Looper.loop();
             }
         });
+
     }
 
     /**

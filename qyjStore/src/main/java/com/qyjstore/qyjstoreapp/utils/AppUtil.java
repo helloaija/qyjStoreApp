@@ -3,11 +3,16 @@ package com.qyjstore.qyjstoreapp.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import com.qyjstore.qyjstoreapp.activity.InitialActivity;
 import com.qyjstore.qyjstoreapp.activity.LoginActivity;
 import com.qyjstore.qyjstoreapp.base.BaseApplication;
 import org.json.JSONObject;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 /**
  * @Author shitl
@@ -48,5 +53,44 @@ public class AppUtil {
         }
 
         return false;
+    }
+
+    /**
+     * http返回code非200情况
+     * @param mContext
+     * @param responseCode
+     * @return
+     */
+    public static boolean handleHttpResponseCode(final Context mContext, int responseCode) {
+        if (200 == responseCode) {
+            return false;
+        }
+
+        Looper.prepare();
+        if (401 == responseCode) {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent);
+        } else {
+            ToastUtil.makeText(mContext, "服务器异常");
+        }
+        Looper.loop();
+
+        return true;
+    }
+
+    /**
+     * http请求异常处理
+     * @param mContext
+     * @param e
+     * @return
+     */
+    public static void handleHttpException(final Context mContext, Exception e) {
+        if (e instanceof SocketTimeoutException) {
+            ToastUtil.makeText(mContext, "请求超时");
+        } else if (e instanceof ConnectException) {
+            ToastUtil.makeText(mContext, "服务器连接失败");
+        } else {
+            ToastUtil.makeText(mContext, "系统异常");
+        }
     }
 }
