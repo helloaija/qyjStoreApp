@@ -1,14 +1,16 @@
 package com.qyjstore.qyjstoreapp.bean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author shitl
  * @Description 销售单
  * @date 2019-05-20
  */
-public class SellOrderBean {
+public class SellOrderBean implements Serializable {
     private Long id;
 
     /** 订单编号 */
@@ -23,6 +25,12 @@ public class SellOrderBean {
     private BigDecimal profitAmount;
     /** 订单状态 */
     private String orderStatus;
+    /** 已支付金额 */
+    private BigDecimal hasPayAmount;
+    /** 支付时间 */
+    private Date payTime;
+    /** 销售单产品 */
+    private List<SellProductBean> sellProductList;
 
     public SellOrderBean() {
     }
@@ -86,5 +94,43 @@ public class SellOrderBean {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<SellProductBean> getSellProductList() {
+        return sellProductList;
+    }
+
+    public void setSellProductList(List<SellProductBean> sellProductList) {
+        this.sellProductList = sellProductList;
+    }
+
+    public BigDecimal getHasPayAmount() {
+        return hasPayAmount;
+    }
+
+    public void setHasPayAmount(BigDecimal hasPayAmount) {
+        this.hasPayAmount = hasPayAmount;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    @Override
+    public String toString() {
+        return "SellOrderBean{" +
+                "id=" + id +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", userName='" + userName + '\'' +
+                ", orderTime=" + orderTime +
+                ", orderAmount=" + orderAmount +
+                ", profitAmount=" + profitAmount +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", sellProductList=" + sellProductList +
+                '}';
     }
 }

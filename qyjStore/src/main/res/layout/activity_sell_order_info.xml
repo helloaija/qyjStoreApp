@@ -56,12 +56,44 @@
                 android:layout_centerInParent="true"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="center"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                style="@style/QyjHollowButton"
                 android:text="编辑"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_sell_order_info_delBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="删除"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_sell_order_info_concelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="取消"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_sell_order_info_saveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="保存"
                 app:qmui_radius="4dp"
         />
     </com.qmuiteam.qmui.widget.QMUIFloatLayout>

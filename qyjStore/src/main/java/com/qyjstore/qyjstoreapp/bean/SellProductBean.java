@@ -1,11 +1,13 @@
 package com.qyjstore.qyjstoreapp.bean;
 
+import java.io.Serializable;
+
 /**
  * @Author shitl
  * @Description 销售产品
  * @date 2019-05-20
  */
-public class SellProductBean {
+public class SellProductBean implements Serializable {
     private Long id;
 
     /** 产品ID */
@@ -16,11 +18,11 @@ public class SellProductBean {
     /** 单位 */
     private String productUnit;
     /** 进价 */
-    private double stockAmount;
+    private Double stockAmount;
     /** 售价 */
-    private double sellAmount;
+    private Double sellAmount;
     /** 数量 */
-    private int number;
+    private Integer number;
 
     public Long getId() {
         return id;
@@ -54,27 +56,27 @@ public class SellProductBean {
         this.productUnit = productUnit;
     }
 
-    public double getStockAmount() {
+    public Double getStockAmount() {
         return stockAmount;
     }
 
-    public void setStockAmount(double stockAmount) {
+    public void setStockAmount(Double stockAmount) {
         this.stockAmount = stockAmount;
     }
 
-    public double getSellAmount() {
+    public Double getSellAmount() {
         return sellAmount;
     }
 
-    public void setSellAmount(double sellAmount) {
+    public void setSellAmount(Double sellAmount) {
         this.sellAmount = sellAmount;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 }

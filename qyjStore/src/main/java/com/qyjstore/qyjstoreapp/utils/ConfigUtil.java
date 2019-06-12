@@ -16,6 +16,9 @@ public class ConfigUtil {
     /** 获取用户信息接口 */
     public static String SYS_SERVICE_GET_USER_INFO = SYS_SERVICE_BASE_URL + "/admin/app/user/getUserInfo";
 
-    /** 获取销售单接口 */
+    /** 获取销售单列表接口 */
     public static String SYS_SERVICE_LIST_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/listSellOrderPage";
+
+    /** 获取单个销售单接口 */
+    public static String SYS_SERVICE_GET_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/getSellOrderInfo";
 }

@@ -12,6 +12,7 @@ public class DateUtil {
 
     public static String DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     public static String DATE_FORMAT_DATE = "yyyy-MM-dd";
+    public static String DATE_FORMAT_DATE_CH = "yyyy年MM月dd日";
 
     public static String parseDateToString(Date date) {
         if (date == null) {

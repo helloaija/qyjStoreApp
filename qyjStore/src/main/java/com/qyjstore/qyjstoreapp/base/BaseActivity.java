@@ -33,4 +33,13 @@ public class BaseActivity extends AppCompatActivity {
         }
         return json.getString("resultMessage");
     }
+
+    /**
+     * http请求是否成功
+     * @param json
+     * @return
+     */
+    public boolean isLoadDataSuccess(JSONObject json) {
+        return "0000".equals(getResultCode(json));
+    }
 }

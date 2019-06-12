@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/qmui_config_color_white">
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/qmui_config_color_white">
 
     <GridLayout
             android:id="@+id/fragment_sell_order_edit_gl"
@@ -19,7 +21,8 @@
                 android:layout_width="wrap_content"
                 android:text="订单编号"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
@@ -29,12 +32,11 @@
                 android:id="@+id/fragment_sell_order_edit_orderNumber"
                 android:layout_height="@dimen/qmui_list_item_height"
                 android:layout_width="wrap_content"
+                android:layout_gravity="fill"
                 android:text="2019010203040506"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:gravity="center_vertical"
                 android:textColor="?attr/qmui_config_color_gray_1"
-                android:paddingLeft="@dimen/common_content_spacing"
-                android:paddingRight="@dimen/common_content_spacing"
         />
 
         <TextView
@@ -42,7 +44,8 @@
                 android:layout_height="@dimen/qmui_list_item_height"
                 android:layout_width="wrap_content"
                 android:text="订单金额"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
@@ -55,9 +58,8 @@
                 android:layout_width="wrap_content"
                 android:text="1000"
                 android:gravity="center_vertical"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
-                android:paddingLeft="@dimen/common_content_spacing"
-                android:paddingRight="@dimen/common_content_spacing"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
         />
 
@@ -67,23 +69,24 @@
                 android:layout_width="wrap_content"
                 android:text="购买人"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:layout_gravity="right"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
         />
-        <EditText
+        <AutoCompleteTextView
                 android:id="@+id/fragment_sell_order_edit_userName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:inputType="text"
+                android:completionHint="请输入搜索内容"
+                android:hint="请输入购买人"
+                android:completionThreshold="1"
+                android:dropDownHorizontalOffset="5dp"
                 android:layout_gravity="fill"
-                android:hint="请选择购买人"
-                android:maxLength="20"
-        />
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:inputType="number|numberDecimal"/>
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderTimeLabel"
@@ -91,8 +94,8 @@
                 android:layout_width="wrap_content"
                 android:text="销售时间"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:layout_gravity="right"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
@@ -115,8 +118,8 @@
                 android:layout_width="wrap_content"
                 android:text="支付金额"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:layout_gravity="right"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
@@ -127,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:layout_gravity="fill"
                 android:hint="请输入支付金额"
                 android:maxLength="10"
@@ -139,8 +142,8 @@
                 android:layout_width="wrap_content"
                 android:text="支付时间"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:layout_gravity="right"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
@@ -158,4 +161,65 @@
         />
     </GridLayout>
 
-</LinearLayout>
+    <!--遮罩-->
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+            android:id="@+id/fragment_sell_order_edit_emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/qmui_config_color_gray_2"
+            android:fitsSystemWindows="true"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+
+    <!--日期控件-->
+    <DatePicker android:id="@+id/fragment_sell_order_edit_datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/qmui_config_color_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <!--取消时间选择-->
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/fragment_sell_order_edit_concelDatePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:focusable="true"
+            style="@style/QyjHollowButton"
+            android:text="取消"
+            app:qmui_radius="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_sell_order_edit_sureDatePick"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_sell_order_edit_datePicker"
+            android:layout_marginEnd="10dp"/>
+
+    <!--确认时间选择-->
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/fragment_sell_order_edit_sureDatePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:focusable="true"
+            style="@style/QyjHollowButton"
+            android:text="确认"
+            app:qmui_radius="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_sell_order_edit_datePicker"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_sell_order_edit_datePicker"
+            android:layout_marginEnd="10dp"/>
+
+    <android.support.constraint.Group
+            android:id="@+id/fragment_sell_order_edit_datePickGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:elevation="1000dp"
+            app:constraint_referenced_ids="fragment_sell_order_edit_datePicker,fragment_sell_order_edit_concelDatePick,fragment_sell_order_edit_sureDatePick" />
+
+</android.support.constraint.ConstraintLayout>

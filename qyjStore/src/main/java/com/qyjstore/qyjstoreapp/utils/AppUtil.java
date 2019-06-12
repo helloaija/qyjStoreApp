@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.util.Date;
 
 /**
  * @Author shitl
@@ -92,5 +93,22 @@ public class AppUtil {
         } else {
             ToastUtil.makeText(mContext, "系统异常");
         }
+    }
+
+    /**
+     * 获取对象toString
+     * @param o
+     * @return
+     */
+    public static String getString(Object o) {
+        if (o == null) {
+            return "";
+        }
+
+        return o.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getString("12332"));
     }
 }

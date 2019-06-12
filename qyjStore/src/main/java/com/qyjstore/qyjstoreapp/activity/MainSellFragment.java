@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +48,8 @@ public class MainSellFragment extends Fragment {
     private EditText queryEt;
     /** 查询按钮 */
     private Button queryBtn;
+    /** 新增按钮 */
+    private Button addBtn;
     /** 列表 */
     private XRecyclerView recyclerView;
     /** 销售单数据 */
@@ -71,6 +72,7 @@ public class MainSellFragment extends Fragment {
         context = this.getContext();
         queryEt = view.findViewById(R.id.fragment_main_sell_et_query);
         queryBtn = view.findViewById(R.id.fragment_main_sell_btn_query);
+        addBtn = view.findViewById(R.id.fragment_main_sell_addBtn);
         recyclerView = view.findViewById(R.id.fragment_main_sell_xrv);
 
         adapter = new SellOrderItemAdapter(view.getContext(), this.itemList);
@@ -81,6 +83,8 @@ public class MainSellFragment extends Fragment {
         configRecyclerView();
 
         queryBtnSetOnClickListener();
+
+        initAddBtn();
 
         createRunnable();
 
@@ -134,6 +138,20 @@ public class MainSellFragment extends Fragment {
     }
 
     /**
+     * 添加按钮初始化
+     */
+    private void initAddBtn() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SellOrderInfoActivity.class);
+                intent.putExtra("orderId", "");
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
      * 加载数据
      */
     private void loadSellOrderData() {
@@ -174,28 +192,6 @@ public class MainSellFragment extends Fragment {
                 loadItemHandler.post(runnable);
             }
         });
-
-        // HttpUtil.doGetAsyn(ConfigUtil.SYS_SERVICE_LIST_SELL_ORDER, paramMap, new HttpUtil.CallBack() {
-        //     @Override
-        //     public void onSuccess(JSONObject json) {
-        //         if ("0000".equals(json.getString("resultCode"))) {
-        //             pageCount = json.getJSONObject("result").getInteger("pageCount");
-        //             if (pageIndex > pageCount) {
-        //                 recyclerView.setNoMore(true);
-        //                 return;
-        //             }
-        //             String recordListStr = json.getJSONObject("result").getString("recordList");
-        //             List<SellOrderBean> sellOrderBeanList = JSON.parseArray(recordListStr, SellOrderBean.class);
-        //             itemList.addAll(sellOrderBeanList);
-        //             loadItemHandler.post(runnable);
-        //         }
-        //     }
-        //
-        //     @Override
-        //     public void onError(int responseCode, String msg) {
-        //         AppUtil.handleLoginExpire(context, responseCode);
-        //     }
-        // });
     }
 
     /**
@@ -248,7 +244,10 @@ public class MainSellFragment extends Fragment {
             ((HoldView) viewHolder).orderStatusTv.setText(EnumUtil.OrderStatusEnum.getTextByValue(bean.getOrderStatus()));
 
             View mItemView = viewHolder.itemView;
-            if (position != 0) {
+            if (position == 0) {
+                // 设置间距
+                ((RecyclerView.LayoutParams) mItemView.getLayoutParams()).topMargin = 0;
+            } else {
                 // 设置间距
                 ((RecyclerView.LayoutParams) mItemView.getLayoutParams()).topMargin = 20;
             }
@@ -256,8 +255,8 @@ public class MainSellFragment extends Fragment {
             mItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("MainSellFragment", "toEdit:" + bean.getId());
                     Intent intent = new Intent(context, SellOrderInfoActivity.class);
+                    intent.putExtra("orderId", String.valueOf(bean.getId()));
                     startActivity(intent);
                 }
             });
