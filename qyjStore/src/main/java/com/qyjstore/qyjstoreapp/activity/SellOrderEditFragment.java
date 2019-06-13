@@ -1,23 +1,25 @@
 package com.qyjstore.qyjstoreapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
+import com.alibaba.fastjson.JSON;
 import com.qmuiteam.qmui.widget.QMUIEmptyView;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.bean.SellOrderBean;
+import com.qyjstore.qyjstoreapp.bean.UserBean;
 import com.qyjstore.qyjstoreapp.utils.AppUtil;
+import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 import com.qyjstore.qyjstoreapp.utils.DateUtil;
 
 import java.util.Calendar;
@@ -33,12 +35,13 @@ public class SellOrderEditFragment extends Fragment {
     private SellOrderBean sellOrder;
     private boolean reayOnly = true;
 
-    private TextView orderNumberTv;
-    private TextView orderAmountTv;
-    private EditText userNameAtv;
-    private EditText orderTimeTv;
-    private EditText payAmountTv;
-    private EditText payTimeTv;
+    private EditText orderNumberEt;
+    private EditText orderAmountEt;
+    private EditText userNameEt;
+    private EditText orderTimeEt;
+    private EditText payAmountEt;
+    private EditText payTimeEt;
+    private EditText remarkEt;
 
     private DatePicker datePicker;
     private Button datePickConcelBtn;
@@ -69,12 +72,13 @@ public class SellOrderEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sell_order_edit, container, false);
 
-        orderNumberTv = view.findViewById(R.id.fragment_sell_order_edit_orderNumber);
-        orderAmountTv = view.findViewById(R.id.fragment_sell_order_edit_orderAmount);
-        userNameAtv = view.findViewById(R.id.fragment_sell_order_edit_userName);
-        orderTimeTv = view.findViewById(R.id.fragment_sell_order_edit_orderTime);
-        payAmountTv = view.findViewById(R.id.fragment_sell_order_edit_payAmount);
-        payTimeTv = view.findViewById(R.id.fragment_sell_order_edit_payTime);
+        orderNumberEt = view.findViewById(R.id.fragment_sell_order_edit_orderNumber);
+        orderAmountEt = view.findViewById(R.id.fragment_sell_order_edit_orderAmount);
+        userNameEt = view.findViewById(R.id.fragment_sell_order_edit_userName);
+        orderTimeEt = view.findViewById(R.id.fragment_sell_order_edit_orderTime);
+        payAmountEt = view.findViewById(R.id.fragment_sell_order_edit_payAmount);
+        payTimeEt = view.findViewById(R.id.fragment_sell_order_edit_payTime);
+        remarkEt = view.findViewById(R.id.fragment_sell_order_edit_remark);
         datePicker = view.findViewById(R.id.fragment_sell_order_edit_datePicker);
         datePickConcelBtn = view.findViewById(R.id.fragment_sell_order_edit_concelDatePick);
         datePickSureBtn = view.findViewById(R.id.fragment_sell_order_edit_sureDatePick);
@@ -85,6 +89,8 @@ public class SellOrderEditFragment extends Fragment {
 
         initChildView();
 
+        setReadOnly(reayOnly);
+
         return view;
     }
 
@@ -92,11 +98,28 @@ public class SellOrderEditFragment extends Fragment {
      * 初始化组件
      */
     private void initChildView() {
-        orderTimeTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        userNameEt.setInputType(InputType.TYPE_NULL);
+        userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    currentDatePickView = orderTimeTv;
+                if (!reayOnly && hasFocus) {
+                    // 跳到用户选择页面
+                    Intent intent = new Intent(getContext(), UserSelectorActivity.class);
+                    Bundle bundle = new Bundle();
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 0);
+                    v.clearFocus();
+                }
+            }
+        });
+
+        orderTimeEt.setInputType(InputType.TYPE_NULL);
+        orderTimeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!reayOnly && hasFocus) {
+                    // 打开日期选择器
+                    currentDatePickView = orderTimeEt;
                     datePickGroup.setVisibility(View.VISIBLE);
                     emptyView.setVisibility(View.VISIBLE);
                     v.clearFocus();
@@ -104,11 +127,13 @@ public class SellOrderEditFragment extends Fragment {
             }
         });
 
-        payTimeTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        payTimeEt.setInputType(InputType.TYPE_NULL);
+        payTimeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    currentDatePickView = payTimeTv;
+                if (!reayOnly && hasFocus) {
+                    // 打开日期选择器
+                    currentDatePickView = payTimeEt;
                     emptyView.setVisibility(View.VISIBLE);
                     datePickGroup.setVisibility(View.VISIBLE);
                     v.clearFocus();
@@ -160,12 +185,13 @@ public class SellOrderEditFragment extends Fragment {
     public void setData(SellOrderBean sellOrder) {
         this.sellOrder = sellOrder;
         if (sellOrder != null) {
-            orderNumberTv.setText(AppUtil.getString(sellOrder.getOrderNumber()));
-            orderAmountTv.setText(AppUtil.getString(sellOrder.getOrderAmount()));
-            userNameAtv.setText(AppUtil.getString(sellOrder.getUserName()));
-            orderTimeTv.setText(DateUtil.parseDateToString(sellOrder.getOrderTime(), DateUtil.DATE_FORMAT_DATE_CH));
-            payAmountTv.setText(AppUtil.getString(sellOrder.getHasPayAmount()));
-            payTimeTv.setText(DateUtil.parseDateToString(sellOrder.getPayTime(), DateUtil.DATE_FORMAT_DATE_CH));
+            orderNumberEt.setText(AppUtil.getString(sellOrder.getOrderNumber()));
+            orderAmountEt.setText(AppUtil.getString(sellOrder.getOrderAmount()));
+            userNameEt.setText(AppUtil.getString(sellOrder.getUserName()));
+            orderTimeEt.setText(DateUtil.parseDateToString(sellOrder.getOrderTime(), DateUtil.DATE_FORMAT_DATE_CH));
+            payAmountEt.setText(AppUtil.getString(sellOrder.getHasPayAmount()));
+            payTimeEt.setText(DateUtil.parseDateToString(sellOrder.getPayTime(), DateUtil.DATE_FORMAT_DATE_CH));
+            remarkEt.setText(sellOrder.getRemark());
         }
     }
 
@@ -176,16 +202,30 @@ public class SellOrderEditFragment extends Fragment {
     public void setReadOnly(boolean flag) {
         reayOnly = flag;
         if (flag) {
-            userNameAtv.setInputType(InputType.TYPE_NULL);
-            orderTimeTv.setInputType(InputType.TYPE_NULL);
-            payAmountTv.setInputType(InputType.TYPE_NULL);
-            payTimeTv.setInputType(InputType.TYPE_NULL);
+            payAmountEt.setInputType(InputType.TYPE_NULL);
+            remarkEt.setInputType(InputType.TYPE_NULL);
         } else {
-            userNameAtv.setInputType(InputType.TYPE_CLASS_TEXT);
-            orderTimeTv.setInputType(InputType.TYPE_CLASS_TEXT);
-            payAmountTv.setInputType(InputType.TYPE_CLASS_TEXT);
-            payTimeTv.setInputType(InputType.TYPE_CLASS_TEXT);
+            payAmountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+            remarkEt.setInputType(InputType.TYPE_CLASS_TEXT);
         }
     }
 
+    /**
+     * 接收用户选择返回结果
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 0) {
+            Bundle bundle = data.getExtras();
+            String selectedUserJsonString = bundle.getString(ConstantUtil.BUNDLE_KEY_SELECTED_USER);
+            if (!TextUtils.isEmpty(selectedUserJsonString)) {
+                UserBean selectedUserBean = JSON.parseObject(selectedUserJsonString, UserBean.class);
+                userNameEt.setText(selectedUserBean.getUserName());
+            }
+        }
+    }
 }

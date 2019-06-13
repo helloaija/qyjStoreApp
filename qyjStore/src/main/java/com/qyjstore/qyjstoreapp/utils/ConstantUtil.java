@@ -8,4 +8,7 @@ package com.qyjstore.qyjstoreapp.utils;
 public class ConstantUtil {
     /** 参数文件名-用户信息 */
     public static String PRO_NAME_USER_INFO = "userinfo";
+
+    /** 数据传递key-用户选择器页面选择的用户 */
+    public static String BUNDLE_KEY_SELECTED_USER = "selectedUser";
 }

@@ -29,6 +29,8 @@ public class SellOrderBean implements Serializable {
     private BigDecimal hasPayAmount;
     /** 支付时间 */
     private Date payTime;
+    /** 备注 */
+    private String remark;
     /** 销售单产品 */
     private List<SellProductBean> sellProductList;
 
@@ -118,6 +120,14 @@ public class SellOrderBean implements Serializable {
 
     public void setPayTime(Date payTime) {
         this.payTime = payTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override

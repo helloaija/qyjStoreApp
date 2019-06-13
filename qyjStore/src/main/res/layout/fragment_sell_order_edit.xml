@@ -28,16 +28,15 @@
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
         />
-        <TextView
+        <EditText
                 android:id="@+id/fragment_sell_order_edit_orderNumber"
-                android:layout_height="@dimen/qmui_list_item_height"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="系统自动生成"
+                android:enabled="false"
+                android:text="@null"
                 android:layout_gravity="fill"
-                android:text="2019010203040506"
-                android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:textColor="?attr/qmui_config_color_gray_1"
-        />
+                android:background="@drawable/qmui_divider_bottom_bitmap"/>
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderAmountLabel"
@@ -52,16 +51,15 @@
                 android:paddingRight="@dimen/common_content_spacing"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
         />
-        <TextView
+
+        <EditText
                 android:id="@+id/fragment_sell_order_edit_orderAmount"
-                android:layout_height="@dimen/qmui_list_item_height"
                 android:layout_width="wrap_content"
-                android:text="1000"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="0.00"
                 android:layout_gravity="fill"
-                android:textColor="?attr/qmui_config_color_gray_1"
-                android:background="@drawable/qmui_divider_bottom_bitmap"
-        />
+                android:background="@drawable/qmui_divider_bottom_bitmap"/>
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_userNameLabel"
@@ -76,17 +74,14 @@
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
         />
-        <AutoCompleteTextView
+        <EditText
                 android:id="@+id/fragment_sell_order_edit_userName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:completionHint="请输入搜索内容"
-                android:hint="请输入购买人"
-                android:completionThreshold="1"
-                android:dropDownHorizontalOffset="5dp"
+                android:hint="选择购买人"
                 android:layout_gravity="fill"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:inputType="number|numberDecimal"/>
+                android:inputType="text"/>
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderTimeLabel"
@@ -106,10 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:inputType="text"
                 android:layout_gravity="fill"
                 android:hint="请选择销售时间"
-                android:maxLength="10"
+                android:inputType="text"
         />
 
         <TextView
@@ -157,7 +151,28 @@
                 android:inputType="text"
                 android:layout_gravity="fill"
                 android:hint="请选择支付时间"
-                android:maxLength="10"
+        />
+        <TextView
+                android:id="@+id/fragment_sell_order_edit_remarkLabel"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_width="wrap_content"
+                android:text="备注"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:paddingLeft="@dimen/common_content_spacing"
+                android:paddingRight="@dimen/common_content_spacing"
+        />
+        <EditText
+                android:id="@+id/fragment_sell_order_edit_remark"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:inputType="textMultiLine"
+                android:layout_gravity="fill"
+                android:hint="请填写备注"
         />
     </GridLayout>
 
@@ -220,6 +235,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:elevation="1000dp"
-            app:constraint_referenced_ids="fragment_sell_order_edit_datePicker,fragment_sell_order_edit_concelDatePick,fragment_sell_order_edit_sureDatePick" />
+            android:background="@color/qmui_config_color_white"
+            app:constraint_referenced_ids="fragment_sell_order_edit_datePicker,fragment_sell_order_edit_concelDatePick,fragment_sell_order_edit_sureDatePick"/>
 
 </android.support.constraint.ConstraintLayout>

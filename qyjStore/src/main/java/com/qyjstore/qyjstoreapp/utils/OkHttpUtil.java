@@ -84,8 +84,7 @@ public class OkHttpUtil {
 
 
         OkHttpClient okHttpClient = getInstance();
-        final Request request = new Request.Builder().url(concatParam(requestUrl, paramMap))
-                .post(requestBody).build();
+        final Request request = new Request.Builder().url(requestUrl).post(requestBody).build();
 
         okHttpClient.newCall(request).enqueue(callback);
     }
@@ -184,8 +183,7 @@ public class OkHttpUtil {
 
 
         OkHttpClient okHttpClient = getInstance();
-        final Request request = new Request.Builder().url(concatParam(requestUrl, paramMap))
-                .post(requestBody).build();
+        final Request request = new Request.Builder().url(requestUrl).post(requestBody).build();
 
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
