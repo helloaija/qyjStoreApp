@@ -12,9 +12,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -23,11 +26,11 @@ import com.qmuiteam.qmui.widget.QMUIFloatLayout;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.bean.ProductBean;
 import com.qyjstore.qyjstoreapp.bean.SellProductBean;
-import com.qyjstore.qyjstoreapp.bean.UserBean;
+import com.qyjstore.qyjstoreapp.bean.SpinnerItem;
 import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
+import org.w3c.dom.Text;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +52,7 @@ public class SellProductEditFragment extends Fragment {
     private List<SellProductBean> mDataList;
 
     /** 当前选择产品的组件 */
-    private EditText currentProductSelectView;
+    private View currentProductSelectView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,7 +124,7 @@ public class SellProductEditFragment extends Fragment {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 final SellProductBean bean = mDataList.get(position);
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_sell_product_edit, parent, false);
+                final View view = LayoutInflater.from(mContext).inflate(R.layout.item_sell_product_edit, parent, false);
 
                 TextView productNameTv = view.findViewById(R.id.item_sell_pruduct_edit_productNameLabel);
                 productNameTv.setText("产品" + (position + 1));
@@ -156,35 +159,44 @@ public class SellProductEditFragment extends Fragment {
                             bundle.putString(ProductSelectorActivity.BUNDLE_KEY_PAGE_TYPE, ProductSelectorActivity.PAGE_TYPE_SELL);
                             intent.putExtras(bundle);
                             startActivityForResult(intent, 0);
-                            currentProductSelectView = productNameEt;
+                            currentProductSelectView = view;
                             v.clearFocus();
                         }
                     }
                 });
 
-                // 进价
-                EditText stockAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
-                stockAmountEt.setText(AppUtil.getString(bean.getStockAmount()));
-                stockAmountEt.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (TextUtils.isEmpty(AppUtil.getString(s))) {
-                            bean.setStockAmount(null);
-                        } else {
-                            bean.setStockAmount(Double.valueOf(AppUtil.getString(s)));
+                // 进价下拉控件
+                final Spinner stockAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
+                if (stockAmountEt.getCount() == 0) {
+                    // 没有选项就以本来值为选项
+                    SpinnerItem[] spinnerItemList = new SpinnerItem[1];
+                    spinnerItemList[0] = new SpinnerItem(AppUtil.getString(bean.getStockAmount()), AppUtil.getString(bean.getStockAmount()));
+                    ArrayAdapter<SpinnerItem> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, spinnerItemList);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    stockAmountEt.setAdapter(spinnerAdapter);
+                } else {
+                    // 已经有选项了，赋值
+                    for (int i = 0; i < stockAmountEt.getCount(); i++) {
+                        double value = Double.valueOf(stockAmountEt.getItemAtPosition(i).toString());
+                        if (bean.getStockAmount() != null && bean.getStockAmount().doubleValue() == value) {
+                            stockAmountEt.setSelection(i);
                         }
                     }
-                });
+                }
+                stockAmountEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
+                                bean.setStockAmount(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    }
+                );
 
                 // 售价
                 EditText sellAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_sellAmount);
@@ -250,13 +262,13 @@ public class SellProductEditFragment extends Fragment {
 
                 if (reayOnly) {
                     productNameEt.setInputType(InputType.TYPE_NULL);
-                    stockAmountEt.setInputType(InputType.TYPE_NULL);
+                    stockAmountEt.setEnabled(false);
                     sellAmountEt.setInputType(InputType.TYPE_NULL);
                     numberEt.setInputType(InputType.TYPE_NULL);
                     removeBtn.setVisibility(View.INVISIBLE);
                 } else {
                     productNameEt.setInputType(InputType.TYPE_CLASS_TEXT);
-                    stockAmountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+                    stockAmountEt.setEnabled(true);
                     sellAmountEt.setInputType(InputType.TYPE_CLASS_TEXT);
                     numberEt.setInputType(InputType.TYPE_CLASS_TEXT);
                     removeBtn.setVisibility(View.VISIBLE);
@@ -303,7 +315,7 @@ public class SellProductEditFragment extends Fragment {
     }
 
     /**
-     * 接收用户选择返回结果
+     * 接收产品选择返回结果
      * @param requestCode
      * @param resultCode
      * @param data
@@ -317,7 +329,22 @@ public class SellProductEditFragment extends Fragment {
             if (!TextUtils.isEmpty(selectedProductJsonString)) {
                 JSONObject json = JSON.parseObject(selectedProductJsonString);
                 ProductBean selectedProductBean = json.toJavaObject(ProductBean.class);
-                currentProductSelectView.setText(selectedProductBean.getTitle());
+
+                EditText productNameEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_productName);
+                productNameEt.setText(selectedProductBean.getTitle());
+                TextView unitTv = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_unit);
+                unitTv.setText(selectedProductBean.getProductUnit());
+
+                Spinner stockAmountEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
+                String[] stockPrices = selectedProductBean.getStockPrices();
+                SpinnerItem[] spinnerItemList = new SpinnerItem[stockPrices.length];
+                for (int i = 0; i < stockPrices.length; i ++) {
+                    spinnerItemList[i] = new SpinnerItem(stockPrices[i], stockPrices[i]);
+                }
+
+                ArrayAdapter<SpinnerItem> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, spinnerItemList);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                stockAmountEt.setAdapter(spinnerAdapter);
             }
         }
     }

@@ -54,7 +54,7 @@
                 android:id="@+id/item_sell_pruduct_edit_unit"
                 android:layout_height="@dimen/qmui_list_item_height"
                 android:layout_width="wrap_content"
-                android:text="袋"
+                android:text="@null"
                 android:gravity="center_vertical"
                 android:layout_gravity="fill"
                 android:textColor="?attr/qmui_config_color_gray_1"
@@ -76,7 +76,7 @@
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
         />
-        <EditText
+        <Spinner
                 android:id="@+id/item_sell_pruduct_edit_stockAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
