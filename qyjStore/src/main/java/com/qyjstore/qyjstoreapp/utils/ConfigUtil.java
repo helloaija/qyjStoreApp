@@ -10,22 +10,28 @@ public class ConfigUtil {
     public static String SYS_SERVICE_BASE_URL = "http://192.168.30.19:8080";
     //   public static String SYS_SERVICE_BASE_URL = "http://192.168.1.105:8080";
 
-    /** 登录接口 */
+    /** 接口-登录 */
     public static String SYS_SERVICE_LOGIN = SYS_SERVICE_BASE_URL + "/admin/login";
 
-    /** 获取用户信息接口 */
+    /** 接口-获取用户信息 */
     public static String SYS_SERVICE_GET_USER_INFO = SYS_SERVICE_BASE_URL + "/admin/app/user/getUserInfo";
 
-    /** 获取销售单列表接口 */
+    /** 接口-获取销售单列表 */
     public static String SYS_SERVICE_LIST_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/listSellOrderPage";
 
-    /** 获取单个销售单接口 */
+    /** 接口-获取单个销售单 */
     public static String SYS_SERVICE_GET_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/getSellOrderInfo";
 
-    /** 获取购买用户列表接口 */
+    /** 接口-获取购买用户列表 */
     public static String SYS_SERVICE_LIST_USER = SYS_SERVICE_BASE_URL + "/admin/app/buyer/listUserPage";
 
-    /** 新增购买用户接口 */
+    /** 接口-新增购买用户 */
     public static String SYS_SERVICE_INSERT_USER = SYS_SERVICE_BASE_URL + "/admin/app/buyer/insertUserInfo";
+
+    /** 接口-获取进货产品列表 */
+    public static String SYS_SERVICE_LIST_STOCK_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/listProductStockInfo";
+
+    /** 接口-保存产品信息 */
+    public static String SYS_SERVICE_SAVE_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/product/saveProductInfo";
 
 }

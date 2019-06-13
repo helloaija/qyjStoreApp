@@ -54,5 +54,10 @@
         <activity android:name="com.qyjstore.qyjstoreapp.activity.UserSelectorActivity"
                   android:screenOrientation="portrait">
         </activity>
+
+        <!--产品选择器页面-->
+        <activity android:name="com.qyjstore.qyjstoreapp.activity.ProductSelectorActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 </manifest>

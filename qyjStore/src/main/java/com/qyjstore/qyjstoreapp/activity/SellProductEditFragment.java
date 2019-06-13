@@ -1,6 +1,7 @@
 package com.qyjstore.qyjstoreapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,11 +16,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.QMUIAnimationListView;
 import com.qmuiteam.qmui.widget.QMUIFloatLayout;
 import com.qyjstore.qyjstoreapp.R;
+import com.qyjstore.qyjstoreapp.bean.ProductBean;
 import com.qyjstore.qyjstoreapp.bean.SellProductBean;
+import com.qyjstore.qyjstoreapp.bean.UserBean;
 import com.qyjstore.qyjstoreapp.utils.AppUtil;
+import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,6 +47,9 @@ public class SellProductEditFragment extends Fragment {
     private Button addProductBtn;
     private QMUIAnimationListView mListView;
     private List<SellProductBean> mDataList;
+
+    /** 当前选择产品的组件 */
+    private EditText currentProductSelectView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,7 +127,8 @@ public class SellProductEditFragment extends Fragment {
                 productNameTv.setText("产品" + (position + 1));
 
                 // 产品
-                EditText productNameEt = view.findViewById(R.id.item_sell_pruduct_edit_productName);
+                final EditText productNameEt = view.findViewById(R.id.item_sell_pruduct_edit_productName);
+                productNameEt.setInputType(InputType.TYPE_NULL);
                 productNameEt.setText(AppUtil.getString(bean.getProductTitle()));
                 productNameEt.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -134,6 +144,21 @@ public class SellProductEditFragment extends Fragment {
                     @Override
                     public void afterTextChanged(Editable s) {
                         bean.setProductTitle(s.toString());
+                    }
+                });
+                productNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!reayOnly && hasFocus) {
+                            // 跳到产品选择页面
+                            Intent intent = new Intent(getContext(), ProductSelectorActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ProductSelectorActivity.BUNDLE_KEY_PAGE_TYPE, ProductSelectorActivity.PAGE_TYPE_SELL);
+                            intent.putExtras(bundle);
+                            startActivityForResult(intent, 0);
+                            currentProductSelectView = productNameEt;
+                            v.clearFocus();
+                        }
                     }
                 });
 
@@ -275,5 +300,25 @@ public class SellProductEditFragment extends Fragment {
      */
     public List<SellProductBean> getData() {
         return new ArrayList<>(mDataList);
+    }
+
+    /**
+     * 接收用户选择返回结果
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 0) {
+            Bundle bundle = data.getExtras();
+            String selectedProductJsonString = bundle.getString(ConstantUtil.BUNDLE_KEY_SELECTED_PRODUCT);
+            if (!TextUtils.isEmpty(selectedProductJsonString)) {
+                JSONObject json = JSON.parseObject(selectedProductJsonString);
+                ProductBean selectedProductBean = json.toJavaObject(ProductBean.class);
+                currentProductSelectView.setText(selectedProductBean.getTitle());
+            }
+        }
     }
 }
