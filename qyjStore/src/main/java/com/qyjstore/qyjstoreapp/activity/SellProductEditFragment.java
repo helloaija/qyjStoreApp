@@ -51,11 +51,17 @@ public class SellProductEditFragment extends Fragment {
     private QMUIAnimationListView mListView;
     private List<SellProductBean> mDataList;
 
-    /** 当前选择产品的组件 */
+    /**
+     * 当前选择产品的组件
+     */
     private View currentProductSelectView;
-    /** 当前选择产品的对象 */
+    /**
+     * 当前选择产品的对象
+     */
     private SellProductBean currentProductSelectBean;
-    /** 事件，用来汇总订单总金额 */
+    /**
+     * 事件，用来汇总订单总金额
+     */
     private SellProductEditEvent event;
 
     @Override
@@ -126,7 +132,7 @@ public class SellProductEditFragment extends Fragment {
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(final int position, View convertView, ViewGroup parent) {
                 final SellProductBean bean = mDataList.get(position);
                 final View view = LayoutInflater.from(mContext).inflate(R.layout.item_sell_product_edit, parent, false);
 
@@ -192,18 +198,18 @@ public class SellProductEditFragment extends Fragment {
                     }
                 }
                 stockAmountEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
-                                bean.setStockPrice(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
-                            }
-                        }
+                                                            @Override
+                                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                                if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
+                                                                    bean.setStockPrice(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
+                                                                }
+                                                            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+                                                            @Override
+                                                            public void onNothingSelected(AdapterView<?> parent) {
 
-                        }
-                    }
+                                                            }
+                                                        }
                 );
 
                 // 售价
@@ -267,7 +273,6 @@ public class SellProductEditFragment extends Fragment {
                         mListView.manipulate(new QMUIAnimationListView.Manipulator<BaseAdapter>() {
                             @Override
                             public void manipulate(BaseAdapter adapter) {
-                                int position = mListView.getFirstVisiblePosition();
                                 mDataList.remove(position);
                             }
                         });
@@ -303,7 +308,12 @@ public class SellProductEditFragment extends Fragment {
             return;
         }
         // 复制一份数据，避免改变原来对象
-        List<SellProductBean> list = new ArrayList<>(sellProductList);
+        List<SellProductBean> list = null;
+        try {
+            list = cloneSellProductList(sellProductList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mDataList.addAll(list);
     }
 
@@ -355,7 +365,7 @@ public class SellProductEditFragment extends Fragment {
                 Spinner stockAmountEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
                 String[] stockPrices = selectedProductBean.getStockPrices();
                 SpinnerItem[] spinnerItemList = new SpinnerItem[stockPrices.length];
-                for (int i = 0; i < stockPrices.length; i ++) {
+                for (int i = 0; i < stockPrices.length; i++) {
                     spinnerItemList[i] = new SpinnerItem(stockPrices[i], stockPrices[i]);
                 }
 
@@ -375,8 +385,32 @@ public class SellProductEditFragment extends Fragment {
         void onNumberChange();
     }
 
-    /** 设置监听事件 */
+    /**
+     * 设置监听事件
+     */
     public void setEvent(SellProductEditEvent event) {
         this.event = event;
+    }
+
+    /**
+     * 复制
+     * @param list
+     * @return
+     * @throws Exception
+     */
+    private List<SellProductBean> cloneSellProductList(List<SellProductBean> list) throws Exception {
+        if (list == null) {
+            return null;
+        }
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<SellProductBean> cloneList = new ArrayList<>();
+        for (SellProductBean bean : list) {
+            SellProductBean cloneBean = (SellProductBean) bean.clone();
+            cloneList.add(cloneBean);
+        }
+        return cloneList;
     }
 }

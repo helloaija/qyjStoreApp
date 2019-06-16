@@ -272,15 +272,14 @@ public class SellOrderInfoActivity extends BaseActivity {
                 orderFragment.setReadOnly(true);
                 orderFragment.setData(sellOrder);
                 productFragment.setReadOnly(true);
+                productFragment.setData(sellOrder.getSellProductList());
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new QMUIDialog.MessageDialogBuilder(mContext)
-                        .setTitle("标题")
-                        .setMessage("确定要发送吗？")
+                new QMUIDialog.MessageDialogBuilder(mContext).setTitle("标题").setMessage("确定要发送吗？")
                         .addAction("取消", new QMUIDialogAction.ActionListener() {
                             @Override
                             public void onClick(QMUIDialog dialog, int index) {

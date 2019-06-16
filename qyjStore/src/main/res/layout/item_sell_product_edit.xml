@@ -5,12 +5,11 @@
               android:layout_height="match_parent"
               android:background="@color/qmui_config_color_white">
 
-    <GridLayout
+    <android.support.constraint.ConstraintLayout
             android:id="@+id/item_sell_pruduct_edit_gl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/qmui_config_color_white"
-            android:columnCount="2"
             android:focusable="true"
             android:focusableInTouchMode="true"
     >
@@ -25,16 +24,66 @@
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
+                app:layout_constraintStart_toStartOf="parent"
         />
         <EditText
                 android:id="@+id/item_sell_pruduct_edit_productName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="text"
                 android:layout_gravity="fill"
                 android:hint="请选择产品"
                 android:maxLength="20"
+                app:layout_constraintStart_toEndOf="@id/item_sell_pruduct_edit_productNameLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_productNameLabel"
+                app:layout_constraintEnd_toStartOf="@+id/item_sell_pruduct_edit_removeBtn"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/item_sell_pruduct_edit_removeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="移除"
+                app:qmui_radius="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/item_sell_pruduct_edit_productNameLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_productNameLabel"
+                android:layout_marginEnd="4dp"/>
+
+        <TextView
+                android:id="@+id/item_sell_pruduct_edit_stockAmountLabel"
+                android:layout_height="@dimen/qyj_form_item_height"
+                android:layout_width="0dp"
+                android:text="进价"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="fill"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:paddingLeft="@dimen/common_content_spacing"
+                android:paddingRight="@dimen/common_content_spacing"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/item_sell_pruduct_edit_productNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/item_sell_pruduct_edit_productNameLabel"
+        />
+        <Spinner
+                android:id="@+id/item_sell_pruduct_edit_stockAmount"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/qyj_form_item_height"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:inputType="numberDecimal"
+                android:digits="1234567890."
+                android:layout_gravity="fill"
+                android:hint="请输入进价"
+                android:maxLength="20"
+                app:layout_constraintStart_toEndOf="@+id/item_sell_pruduct_edit_stockAmountLabel"
+                app:layout_constraintEnd_toStartOf="@+id/item_sell_pruduct_edit_unitLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_stockAmountLabel"
         />
 
         <TextView
@@ -49,11 +98,16 @@
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_stockAmountLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
         />
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_unit"
                 android:layout_height="@dimen/qyj_form_item_height"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:text="@null"
                 android:gravity="center_vertical"
                 android:layout_gravity="fill"
@@ -61,13 +115,16 @@
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
+                app:layout_constraintStart_toEndOf="@id/item_sell_pruduct_edit_unitLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_unitLabel"
         />
 
         <TextView
-                android:id="@+id/item_sell_pruduct_edit_stockAmountLabel"
+                android:id="@+id/item_sell_pruduct_edit_sellAmountLabel"
                 android:layout_height="@dimen/qyj_form_item_height"
-                android:layout_width="wrap_content"
-                android:text="进价"
+                android:layout_width="0dp"
+                android:text="售价"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:gravity="center_vertical|end"
                 android:layout_gravity="fill"
@@ -75,35 +132,13 @@
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
-        />
-        <Spinner
-                android:id="@+id/item_sell_pruduct_edit_stockAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/qyj_form_item_height"
-                android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:inputType="numberDecimal"
-                android:digits="1234567890."
-                android:layout_gravity="fill"
-                android:hint="请输入进价"
-                android:maxLength="20"
-        />
-
-        <TextView
-                android:id="@+id/item_sell_pruduct_edit_sellAmountLabel"
-                android:layout_height="@dimen/qyj_form_item_height"
-                android:layout_width="wrap_content"
-                android:text="售价"
-                android:background="@drawable/qmui_divider_bottom_bitmap"
-                android:gravity="center_vertical"
-                android:layout_gravity="right"
-                android:textColor="?attr/qmui_config_color_gray_1"
-                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
-                android:paddingLeft="@dimen/common_content_spacing"
-                android:paddingRight="@dimen/common_content_spacing"
+                app:layout_constraintTop_toBottomOf="@+id/item_sell_pruduct_edit_unitLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/item_sell_pruduct_edit_productNameLabel"
         />
         <EditText
                 android:id="@+id/item_sell_pruduct_edit_sellAmount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="numberDecimal"
@@ -111,6 +146,8 @@
                 android:layout_gravity="fill"
                 android:hint="请输入售价"
                 android:maxLength="10"
+                app:layout_constraintStart_toEndOf="@id/item_sell_pruduct_edit_sellAmountLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_sellAmountLabel"
         />
 
         <TextView
@@ -125,37 +162,22 @@
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"
                 android:paddingRight="@dimen/common_content_spacing"
+                app:layout_constraintEnd_toEndOf="@id/item_sell_pruduct_edit_unitLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/item_sell_pruduct_edit_sellAmount"
         />
-        <android.support.constraint.ConstraintLayout
-                android:layout_height="match_parent"
-                android:layout_gravity="fill">
-            <EditText
-                    android:id="@+id/item_sell_pruduct_edit_number"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/qyj_form_item_height"
-                    android:background="@drawable/qmui_divider_bottom_bitmap"
-                    android:inputType="numberDecimal"
-                    android:digits="1234567890"
-                    android:hint="请输入数量"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/item_sell_pruduct_edit_removeBtn"
-            />
-            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-                    android:id="@+id/item_sell_pruduct_edit_removeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    style="@style/QyjHollowButton"
-                    android:text="移除"
-                    app:qmui_radius="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="4dp"/>
-        </android.support.constraint.ConstraintLayout>
+        <EditText
+                android:id="@+id/item_sell_pruduct_edit_number"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/qyj_form_item_height"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:inputType="numberDecimal"
+                android:digits="1234567890"
+                android:hint="请输入数量"
+                app:layout_constraintStart_toEndOf="@id/item_sell_pruduct_edit_numberLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/item_sell_pruduct_edit_numberLabel"
+        />
 
-    </GridLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

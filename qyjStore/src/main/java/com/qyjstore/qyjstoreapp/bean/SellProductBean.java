@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Description 销售产品
  * @date 2019-05-20
  */
-public class SellProductBean implements Serializable {
+public class SellProductBean implements Serializable, Cloneable {
     private Long id;
 
     /**
@@ -90,5 +90,10 @@ public class SellProductBean implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
