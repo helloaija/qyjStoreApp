@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
         <TextView
                 android:id="@+id/activity_user_selector_userNameLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="用户名"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -102,7 +102,7 @@
         <EditText
                 android:id="@+id/activity_user_selector_userName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入用户名"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -110,7 +110,7 @@
 
         <TextView
                 android:id="@+id/activity_user_selector_mobilePhoneLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="手机号码"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -124,7 +124,7 @@
         <EditText
                 android:id="@+id/activity_user_selector_mobilePhone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入手机号码"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -133,7 +133,7 @@
 
         <TextView
                 android:id="@+id/activity_user_selector_addressLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="住址"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -147,7 +147,7 @@
         <EditText
                 android:id="@+id/activity_user_selector_address"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入住址"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -155,7 +155,7 @@
 
         <TextView
                 android:id="@+id/activity_user_selector_remarkLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="备注"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -169,7 +169,7 @@
         <EditText
                 android:id="@+id/activity_user_selector_remark"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入备注"
                 android:text="@null"
                 android:layout_gravity="fill"

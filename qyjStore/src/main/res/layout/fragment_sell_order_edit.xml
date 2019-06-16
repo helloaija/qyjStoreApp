@@ -17,7 +17,7 @@
     >
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderNumberLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="订单编号"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -31,7 +31,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_orderNumber"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="系统自动生成"
                 android:enabled="false"
                 android:text="@null"
@@ -40,7 +40,7 @@
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderAmountLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="订单金额"
                 android:gravity="center_vertical|end"
@@ -55,7 +55,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_orderAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:enabled="false"
                 android:text="0.00"
                 android:layout_gravity="fill"
@@ -63,7 +63,7 @@
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_userNameLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="购买人"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -77,7 +77,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_userName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="选择购买人"
                 android:layout_gravity="fill"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -85,7 +85,7 @@
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_orderTimeLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="销售时间"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -99,7 +99,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_orderTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:layout_gravity="fill"
                 android:hint="请选择销售时间"
@@ -108,7 +108,7 @@
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_payAmountLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="支付金额"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -124,7 +124,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_payAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="numberDecimal"
                 android:layout_gravity="fill"
@@ -134,7 +134,7 @@
 
         <TextView
                 android:id="@+id/fragment_sell_order_edit_payTimeLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="支付时间"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -148,7 +148,7 @@
         <EditText
                 android:id="@+id/fragment_sell_order_edit_payTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="text"
                 android:layout_gravity="fill"
@@ -156,7 +156,7 @@
         />
         <TextView
                 android:id="@+id/fragment_sell_order_edit_remarkLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="备注"
                 android:gravity="center_vertical|end"
@@ -169,7 +169,7 @@
         />
         <EditText
                 android:id="@+id/fragment_sell_order_edit_remark"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="0dp"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="textMultiLine"

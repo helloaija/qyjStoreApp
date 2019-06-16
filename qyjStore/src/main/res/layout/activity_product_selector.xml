@@ -80,7 +80,7 @@
     <GridLayout
             android:id="@+id/activity_product_selector_gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/qyj_form_item_height"
             android:background="@color/qmui_config_color_white"
             android:columnCount="2"
             android:focusable="true"
@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
         <TextView
                 android:id="@+id/activity_product_selector_titleLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="产品名称"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -102,7 +102,7 @@
         <EditText
                 android:id="@+id/activity_product_selector_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入产品名称"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -110,7 +110,7 @@
 
         <TextView
                 android:id="@+id/activity_product_selector_productTypeLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="类型"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -123,7 +123,7 @@
         />
         <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:id="@+id/activity_product_selector_productType"
                 android:layout_gravity="fill"
                 android:hint="请选择产品类型"
@@ -131,7 +131,7 @@
 
         <TextView
                 android:id="@+id/activity_product_selector_productUnitLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="单位"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -145,7 +145,7 @@
         <EditText
                 android:id="@+id/activity_product_selector_productUnit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入单位"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -154,7 +154,7 @@
 
         <TextView
                 android:id="@+id/activity_product_selector_priceLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="售价"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -168,7 +168,7 @@
         <EditText
                 android:id="@+id/activity_product_selector_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入售价"
                 android:text="@null"
                 android:layout_gravity="fill"
@@ -177,7 +177,7 @@
 
         <TextView
                 android:id="@+id/activity_product_selector_remarkLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="备注"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -191,7 +191,7 @@
         <EditText
                 android:id="@+id/activity_product_selector_remark"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:hint="请输入备注"
                 android:text="@null"
                 android:layout_gravity="fill"

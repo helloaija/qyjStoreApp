@@ -16,7 +16,7 @@
     >
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_productNameLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="产品"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -29,7 +29,7 @@
         <EditText
                 android:id="@+id/item_sell_pruduct_edit_productName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="text"
                 android:layout_gravity="fill"
@@ -39,7 +39,7 @@
 
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_unitLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="单位"
                 android:gravity="center_vertical|end"
@@ -52,7 +52,7 @@
         />
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_unit"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="@null"
                 android:gravity="center_vertical"
@@ -65,7 +65,7 @@
 
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_stockAmountLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="进价"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -79,7 +79,7 @@
         <Spinner
                 android:id="@+id/item_sell_pruduct_edit_stockAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="numberDecimal"
                 android:digits="1234567890."
@@ -90,7 +90,7 @@
 
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_sellAmountLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="售价"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -104,7 +104,7 @@
         <EditText
                 android:id="@+id/item_sell_pruduct_edit_sellAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="numberDecimal"
                 android:digits="1234567890."
@@ -115,7 +115,7 @@
 
         <TextView
                 android:id="@+id/item_sell_pruduct_edit_numberLabel"
-                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_height="@dimen/qyj_form_item_height"
                 android:layout_width="wrap_content"
                 android:text="数量"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
@@ -132,7 +132,7 @@
             <EditText
                     android:id="@+id/item_sell_pruduct_edit_number"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/qmui_list_item_height"
+                    android:layout_height="@dimen/qyj_form_item_height"
                     android:background="@drawable/qmui_divider_bottom_bitmap"
                     android:inputType="numberDecimal"
                     android:digits="1234567890"
