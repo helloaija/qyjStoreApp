@@ -18,19 +18,20 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.QMUITabSegment;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qyjstore.qyjstoreapp.R;
 import com.qyjstore.qyjstoreapp.base.BaseActivity;
 import com.qyjstore.qyjstoreapp.bean.SellOrderBean;
 import com.qyjstore.qyjstoreapp.bean.SellProductBean;
-import com.qyjstore.qyjstoreapp.utils.ConfigUtil;
-import com.qyjstore.qyjstoreapp.utils.OkHttpUtil;
-import com.qyjstore.qyjstoreapp.utils.ToastUtil;
+import com.qyjstore.qyjstoreapp.utils.*;
 import okhttp3.Call;
 import okhttp3.Response;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,23 +44,37 @@ import java.util.Map;
  */
 public class SellOrderInfoActivity extends BaseActivity {
     private Context mContext;
-    /** 页面状态，新增:ADD, 查看:VIEW, 编辑:EDIT, */
+    /**
+     * 页面状态，新增:ADD, 查看:VIEW, 编辑:EDIT,
+     */
     private String pageState = PAGE_STATE_ADD;
     private static String PAGE_STATE_ADD = "ADD";
     private static String PAGE_STATE_VIEW = "VIEW";
     private static String PAGE_STATE_EDIT = "EDIT";
-    /** 订单ID */
+    /**
+     * 订单ID
+     */
     private Long orderId;
-    /** 编辑时的订单ID，为空为新增 */
+    /**
+     * 编辑时的订单ID，为空为新增
+     */
     private SellOrderBean sellOrder;
-    /** 顶部标题栏 */
+    /**
+     * 顶部标题栏
+     */
     private QMUITopBarLayout mTopBar;
-    /** 标签 */
+    /**
+     * 标签
+     */
     private QMUITabSegment mTabSegment;
     private ViewPager mViewPager;
-    /** 订单编辑碎片 */
+    /**
+     * 订单编辑碎片
+     */
     private SellOrderEditFragment orderFragment;
-    /** 产品编辑碎片 */
+    /**
+     * 产品编辑碎片
+     */
     private SellProductEditFragment productFragment;
 
     private List<PagerItem> paperItemList;
@@ -71,8 +86,12 @@ public class SellOrderInfoActivity extends BaseActivity {
     private Button deleteBtn;
     private Button saveBtn;
 
-    /** 用来初始化tab */
+    /**
+     * 用来初始化tab
+     */
     private Handler handler = new InitTapHandler(this);
+
+    private int mCurrentDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -171,6 +190,18 @@ public class SellOrderInfoActivity extends BaseActivity {
         paperItemList.add(new PagerItem("订单信息", orderFragment));
         paperItemList.add(new PagerItem("产品信息", productFragment));
 
+        productFragment.setEvent(new SellProductEditFragment.SellProductEditEvent() {
+
+            @Override
+            public void onPriceChange() {
+                calcOrderAmount();
+            }
+
+            @Override
+            public void onNumberChange() {
+                calcOrderAmount();
+            }
+        });
     }
 
     private void initPagerAdapter() {
@@ -241,31 +272,126 @@ public class SellOrderInfoActivity extends BaseActivity {
                 orderFragment.setReadOnly(true);
                 orderFragment.setData(sellOrder);
                 productFragment.setReadOnly(true);
-                // productFragment.setData(sellOrder.getSellProductList());
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                new QMUIDialog.MessageDialogBuilder(mContext)
+                        .setTitle("标题")
+                        .setMessage("确定要发送吗？")
+                        .addAction("取消", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                dialog.dismiss();
+                                Map<String, String> paramMap = new HashMap<>();
+                                paramMap.put("sellId", AppUtil.getString(orderId));
+                                OkHttpUtil.doPost(ConfigUtil.SYS_SERVICE_DELETE_SELL_ORDER, paramMap, new OkHttpUtil.HttpCallBack(mContext) {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response, String responeText) {
+                                        JSONObject json = JSON.parseObject(responeText);
+                                        if (!isLoadDataSuccess(json)) {
+                                            Looper.prepare();
+                                            ToastUtil.makeText(mContext, getResultMessage(json));
+                                            Looper.loop();
+                                            return;
+                                        }
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ToastUtil.makeText(mContext, "删除成功");
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        })
+                        .create(mCurrentDialogStyle).show();
+
             }
         });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<SellProductBean> beanList = productFragment.getData();
-                if (beanList == null || beanList.isEmpty()) {
+                SellOrderBean orderBean = orderFragment.getData();
+                if (orderBean == null) {
+                    ToastUtil.makeText(mContext, "订单信息为空");
+                    return;
+                }
+                List<SellProductBean> productBeanList = productFragment.getData();
+                if (productBeanList == null || productBeanList.isEmpty()) {
                     ToastUtil.makeText(mContext, "请添加产品信息");
                     return;
                 }
-                setPageState(PAGE_STATE_VIEW);
-                setButtonVisibility();
-                orderFragment.setReadOnly(true);
-                // orderFragment.setData(sellOrder);
-                productFragment.setReadOnly(true);
-                // productFragment.setData(sellOrder.getSellProductList());
+
+                String postUrl = ConfigUtil.SYS_SERVICE_ADD_SELL_ORDER;
+                Map<String, String> paramMap = new HashMap<>();
+                if (orderBean.getId() != null) {
+                    paramMap.put("id", AppUtil.getString(orderBean.getId()));
+                    postUrl = ConfigUtil.SYS_SERVICE_UPDATE_SELL_ORDER;
+                }
+                paramMap.put("orderNumber", AppUtil.getString(orderBean.getOrderNumber()));
+                paramMap.put("orderAmount", AppUtil.getString(orderBean.getOrderAmount()));
+                paramMap.put("userId", AppUtil.getString(orderBean.getUserId()));
+                paramMap.put("userName", AppUtil.getString(orderBean.getUserName()));
+                paramMap.put("orderTime", DateUtil.parseDateToString(orderBean.getOrderTime()));
+                paramMap.put("hasPayAmount", AppUtil.getString(orderBean.getHasPayAmount()));
+                paramMap.put("payTime", DateUtil.parseDateToString(orderBean.getPayTime()));
+                paramMap.put("remark", AppUtil.getString(orderBean.getRemark()));
+
+                for (int i = 0; i < productBeanList.size(); i++) {
+                    SellProductBean bean = productBeanList.get(i);
+                    paramMap.put("sellProductList[" + i + "].id", AppUtil.getString(bean.getId()));
+                    paramMap.put("sellProductList[" + i + "].productId", AppUtil.getString(bean.getProductId()));
+                    paramMap.put("sellProductList[" + i + "].productTitle", AppUtil.getString(bean.getProductTitle()));
+                    paramMap.put("sellProductList[" + i + "].productUnit", AppUtil.getString(bean.getProductUnit()));
+                    paramMap.put("sellProductList[" + i + "].stockPrice", AppUtil.getString(bean.getStockPrice()));
+                    paramMap.put("sellProductList[" + i + "].number", AppUtil.getString(bean.getNumber()));
+                    paramMap.put("sellProductList[" + i + "].price", AppUtil.getString(bean.getPrice()));
+                }
+
+                OkHttpUtil.doPost(postUrl, paramMap, new OkHttpUtil.HttpCallBack(mContext) {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response, String responeText) {
+                        JSONObject json = JSON.parseObject(responeText);
+                        if (!isLoadDataSuccess(json)) {
+                            Looper.prepare();
+                            ToastUtil.makeText(mContext, getResultMessage(json));
+                            Looper.loop();
+                            return;
+                        }
+                        sellOrder = json.getObject("result", SellOrderBean.class);
+                        Log.d("SellOrderInfoActivity", "load sellOrder success:" + sellOrder);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                setPageState(PAGE_STATE_VIEW);
+                                setButtonVisibility();
+                                orderFragment.setReadOnly(true);
+                                orderFragment.setData(sellOrder);
+                                productFragment.setReadOnly(true);
+                                productFragment.setData(sellOrder.getSellProductList());
+                            }
+                        });
+                    }
+                });
             }
         });
     }
@@ -322,5 +448,22 @@ public class SellOrderInfoActivity extends BaseActivity {
             deleteBtn.setVisibility(View.GONE);
             saveBtn.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 计算订单金额
+     */
+    private void calcOrderAmount() {
+        List<SellProductBean> beans = productFragment.getData();
+        if (beans == null || beans.isEmpty()) {
+            return;
+        }
+        BigDecimal orderAmount = new BigDecimal("0.00");
+        for (SellProductBean bean : beans) {
+            if (bean.getNumber() != null && bean.getPrice() != null) {
+                orderAmount = orderAmount.add(BigDecimal.valueOf(bean.getNumber()).multiply(BigDecimal.valueOf(bean.getPrice())));
+            }
+        }
+        orderFragment.setOrderAmount(orderAmount);
     }
 }

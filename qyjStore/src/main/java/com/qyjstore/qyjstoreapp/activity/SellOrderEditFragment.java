@@ -22,6 +22,7 @@ import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
 import com.qyjstore.qyjstoreapp.utils.DateUtil;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 /**
@@ -32,7 +33,8 @@ import java.util.Calendar;
 public class SellOrderEditFragment extends Fragment {
     public static String BUNDLE_KEY_SELL_ORDER = "sellOrder";
     public static String BUNDLE_KEY_READ_ONLY = "readOnly";
-    private SellOrderBean sellOrder;
+    /** 起始订单信息，新增就为空，编辑就为编辑的订单 */
+    private SellOrderBean originalSellOrder;
     private boolean reayOnly = true;
 
     private EditText orderNumberEt;
@@ -48,6 +50,8 @@ public class SellOrderEditFragment extends Fragment {
     private Button datePickSureBtn;
     private Group datePickGroup;
 
+    /** 当前选择的购买人id */
+    private Long userId;
     /** 当前时间选择的编辑框，时间选择后写着这个编辑框 */
     private EditText currentDatePickView;
     private QMUIEmptyView emptyView;
@@ -58,7 +62,8 @@ public class SellOrderEditFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             if (bundle.containsKey(BUNDLE_KEY_SELL_ORDER) && bundle.getSerializable(BUNDLE_KEY_SELL_ORDER) != null) {
-                sellOrder = (SellOrderBean) bundle.getSerializable(BUNDLE_KEY_SELL_ORDER);
+                originalSellOrder = (SellOrderBean) bundle.getSerializable(BUNDLE_KEY_SELL_ORDER);
+                userId = originalSellOrder.getUserId();
             }
             if (bundle.containsKey(BUNDLE_KEY_READ_ONLY)) {
                 reayOnly = bundle.getBoolean(BUNDLE_KEY_READ_ONLY);
@@ -85,7 +90,7 @@ public class SellOrderEditFragment extends Fragment {
         datePickGroup = view.findViewById(R.id.fragment_sell_order_edit_datePickGroup);
         emptyView = view.findViewById(R.id.fragment_sell_order_edit_emptyView);
 
-        setData(sellOrder);
+        setData(originalSellOrder);
 
         initChildView();
 
@@ -183,7 +188,7 @@ public class SellOrderEditFragment extends Fragment {
      * @param sellOrder
      */
     public void setData(SellOrderBean sellOrder) {
-        this.sellOrder = sellOrder;
+        this.originalSellOrder = sellOrder;
         if (sellOrder != null) {
             orderNumberEt.setText(AppUtil.getString(sellOrder.getOrderNumber()));
             orderAmountEt.setText(AppUtil.getString(sellOrder.getOrderAmount()));
@@ -219,13 +224,43 @@ public class SellOrderEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 0) {
+        if (resultCode == 0 && data != null) {
             Bundle bundle = data.getExtras();
             String selectedUserJsonString = bundle.getString(ConstantUtil.BUNDLE_KEY_SELECTED_USER);
             if (!TextUtils.isEmpty(selectedUserJsonString)) {
                 UserBean selectedUserBean = JSON.parseObject(selectedUserJsonString, UserBean.class);
+                userId = selectedUserBean.getId();
                 userNameEt.setText(selectedUserBean.getUserName());
             }
         }
+    }
+
+    /**
+     * 获取编辑的数据
+     * @return
+     */
+    public SellOrderBean getData() {
+        SellOrderBean data = new SellOrderBean();
+        if (originalSellOrder != null) {
+            data.setId(originalSellOrder.getId());
+        }
+        data.setUserId(userId);
+        data.setOrderNumber(orderNumberEt.getText().toString());
+        data.setOrderAmount(new BigDecimal(orderAmountEt.getText().toString()));
+        data.setUserName(userNameEt.getText().toString().trim());
+        data.setOrderTime(DateUtil.parseStringToDate(orderTimeEt.getText().toString(), DateUtil.DATE_FORMAT_DATE_CH));
+        data.setHasPayAmount(new BigDecimal(payAmountEt.getText().toString()));
+        data.setPayTime(DateUtil.parseStringToDate(payTimeEt.getText().toString(), DateUtil.DATE_FORMAT_DATE_CH));
+        data.setRemark(remarkEt.getText().toString().trim());
+
+        return data;
+    }
+
+    /**
+     * 设置订单金额
+     * @param orderAmount
+     */
+    public void setOrderAmount(BigDecimal orderAmount) {
+        orderAmountEt.setText(AppUtil.getString(orderAmount.setScale(2, BigDecimal.ROUND_DOWN)));
     }
 }

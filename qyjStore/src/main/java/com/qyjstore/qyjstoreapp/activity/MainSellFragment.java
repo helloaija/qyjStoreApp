@@ -132,6 +132,10 @@ public class MainSellFragment extends Fragment {
         queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pageIndex = 1;
+                pageCount = 1;
+                itemList.clear();
+                adapter.notifyDataSetChanged();
                 loadSellOrderData();
             }
         });

@@ -10,18 +10,30 @@ import java.io.Serializable;
 public class SellProductBean implements Serializable {
     private Long id;
 
-    /** 产品ID */
+    /**
+     * 产品ID
+     */
     private Long productId;
 
-    /** 产品名称 */
+    /**
+     * 产品名称
+     */
     private String productTitle;
-    /** 单位 */
+    /**
+     * 单位
+     */
     private String productUnit;
-    /** 进价 */
-    private Double stockAmount;
-    /** 售价 */
-    private Double sellAmount;
-    /** 数量 */
+    /**
+     * 进价
+     */
+    private Double stockPrice;
+    /**
+     * 售价
+     */
+    private Double price;
+    /**
+     * 数量
+     */
     private Integer number;
 
     public Long getId() {
@@ -56,27 +68,27 @@ public class SellProductBean implements Serializable {
         this.productUnit = productUnit;
     }
 
-    public Double getStockAmount() {
-        return stockAmount;
-    }
-
-    public void setStockAmount(Double stockAmount) {
-        this.stockAmount = stockAmount;
-    }
-
-    public Double getSellAmount() {
-        return sellAmount;
-    }
-
-    public void setSellAmount(Double sellAmount) {
-        this.sellAmount = sellAmount;
-    }
-
     public Integer getNumber() {
         return number;
     }
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Double getStockPrice() {
+        return stockPrice;
+    }
+
+    public void setStockPrice(Double stockPrice) {
+        this.stockPrice = stockPrice;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

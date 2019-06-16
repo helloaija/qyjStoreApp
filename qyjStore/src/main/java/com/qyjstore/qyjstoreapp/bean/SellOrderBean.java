@@ -15,6 +15,8 @@ public class SellOrderBean implements Serializable {
 
     /** 订单编号 */
     private String orderNumber;
+    /** 购买人ID */
+    private Long userId;
     /** 购买人 */
     private String userName;
     /** 销售时间 */
@@ -128,6 +130,14 @@ public class SellOrderBean implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override

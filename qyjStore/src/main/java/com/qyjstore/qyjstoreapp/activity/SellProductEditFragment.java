@@ -53,6 +53,10 @@ public class SellProductEditFragment extends Fragment {
 
     /** 当前选择产品的组件 */
     private View currentProductSelectView;
+    /** 当前选择产品的对象 */
+    private SellProductBean currentProductSelectBean;
+    /** 事件，用来汇总订单总金额 */
+    private SellProductEditEvent event;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,17 +164,21 @@ public class SellProductEditFragment extends Fragment {
                             intent.putExtras(bundle);
                             startActivityForResult(intent, 0);
                             currentProductSelectView = view;
+                            currentProductSelectBean = bean;
                             v.clearFocus();
                         }
                     }
                 });
+
+                final TextView unitEt = view.findViewById(R.id.item_sell_pruduct_edit_unit);
+                unitEt.setText(AppUtil.getString(bean.getProductUnit()));
 
                 // 进价下拉控件
                 final Spinner stockAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
                 if (stockAmountEt.getCount() == 0) {
                     // 没有选项就以本来值为选项
                     SpinnerItem[] spinnerItemList = new SpinnerItem[1];
-                    spinnerItemList[0] = new SpinnerItem(AppUtil.getString(bean.getStockAmount()), AppUtil.getString(bean.getStockAmount()));
+                    spinnerItemList[0] = new SpinnerItem(AppUtil.getString(bean.getStockPrice()), AppUtil.getString(bean.getStockPrice()));
                     ArrayAdapter<SpinnerItem> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, spinnerItemList);
                     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     stockAmountEt.setAdapter(spinnerAdapter);
@@ -178,7 +186,7 @@ public class SellProductEditFragment extends Fragment {
                     // 已经有选项了，赋值
                     for (int i = 0; i < stockAmountEt.getCount(); i++) {
                         double value = Double.valueOf(stockAmountEt.getItemAtPosition(i).toString());
-                        if (bean.getStockAmount() != null && bean.getStockAmount().doubleValue() == value) {
+                        if (bean.getStockPrice() != null && bean.getStockPrice().doubleValue() == value) {
                             stockAmountEt.setSelection(i);
                         }
                     }
@@ -187,7 +195,7 @@ public class SellProductEditFragment extends Fragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
-                                bean.setStockAmount(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
+                                bean.setStockPrice(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
                             }
                         }
 
@@ -200,7 +208,7 @@ public class SellProductEditFragment extends Fragment {
 
                 // 售价
                 EditText sellAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_sellAmount);
-                sellAmountEt.setText(AppUtil.getString(bean.getSellAmount()));
+                sellAmountEt.setText(AppUtil.getString(bean.getPrice()));
                 sellAmountEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -215,16 +223,19 @@ public class SellProductEditFragment extends Fragment {
                     @Override
                     public void afterTextChanged(Editable s) {
                         if (TextUtils.isEmpty(AppUtil.getString(s))) {
-                            bean.setSellAmount(null);
+                            bean.setPrice(null);
                         } else {
-                            bean.setSellAmount(Double.valueOf(AppUtil.getString(s)));
+                            bean.setPrice(Double.valueOf(AppUtil.getString(s)));
+                        }
+                        if (event != null) {
+                            event.onPriceChange();
                         }
                     }
                 });
 
                 // 数量
                 EditText numberEt = view.findViewById(R.id.item_sell_pruduct_edit_number);
-                numberEt.setText(AppUtil.getString(bean.getSellAmount()));
+                numberEt.setText(AppUtil.getString(bean.getNumber()));
                 numberEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -242,6 +253,9 @@ public class SellProductEditFragment extends Fragment {
                             bean.setNumber(null);
                         } else {
                             bean.setNumber(Double.valueOf(AppUtil.getString(s)).intValue());
+                        }
+                        if (event != null) {
+                            event.onNumberChange();
                         }
                     }
                 });
@@ -323,17 +337,20 @@ public class SellProductEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 0) {
+        if (resultCode == 0 && data != null) {
             Bundle bundle = data.getExtras();
             String selectedProductJsonString = bundle.getString(ConstantUtil.BUNDLE_KEY_SELECTED_PRODUCT);
             if (!TextUtils.isEmpty(selectedProductJsonString)) {
                 JSONObject json = JSON.parseObject(selectedProductJsonString);
                 ProductBean selectedProductBean = json.toJavaObject(ProductBean.class);
 
+                currentProductSelectBean.setProductId(selectedProductBean.getId());
+
                 EditText productNameEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_productName);
                 productNameEt.setText(selectedProductBean.getTitle());
                 TextView unitTv = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_unit);
                 unitTv.setText(selectedProductBean.getProductUnit());
+                currentProductSelectBean.setProductUnit(selectedProductBean.getProductUnit());
 
                 Spinner stockAmountEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
                 String[] stockPrices = selectedProductBean.getStockPrices();
@@ -347,5 +364,19 @@ public class SellProductEditFragment extends Fragment {
                 stockAmountEt.setAdapter(spinnerAdapter);
             }
         }
+    }
+
+    /**
+     * 事件接口
+     */
+    public interface SellProductEditEvent {
+        void onPriceChange();
+
+        void onNumberChange();
+    }
+
+    /** 设置监听事件 */
+    public void setEvent(SellProductEditEvent event) {
+        this.event = event;
     }
 }

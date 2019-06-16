@@ -7,8 +7,8 @@ package com.qyjstore.qyjstoreapp.utils;
  */
 public class ConfigUtil {
     // public static String SYS_SERVICE_BASE_URL = "https://www.qyjstore.cn";
-    public static String SYS_SERVICE_BASE_URL = "http://192.168.30.19:8080";
-    //   public static String SYS_SERVICE_BASE_URL = "http://192.168.1.105:8080";
+//   public static String SYS_SERVICE_BASE_URL = "http://192.168.30.19:8080";
+      public static String SYS_SERVICE_BASE_URL = "http://192.168.1.105:8080";
 
     /** 接口-登录 */
     public static String SYS_SERVICE_LOGIN = SYS_SERVICE_BASE_URL + "/admin/login";
@@ -33,5 +33,14 @@ public class ConfigUtil {
 
     /** 接口-保存产品信息 */
     public static String SYS_SERVICE_SAVE_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/product/saveProductInfo";
+
+    /** 接口-添加销售单 */
+    public static String SYS_SERVICE_ADD_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/addSellOrder";
+
+    /** 接口-更新销售单 */
+    public static String SYS_SERVICE_UPDATE_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/updateSellOrder";
+
+    /** 接口-删除销售单 */
+    public static String SYS_SERVICE_DELETE_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/deleteSellOrder";
 
 }
