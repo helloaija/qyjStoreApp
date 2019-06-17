@@ -206,13 +206,11 @@ public class SellOrderEditFragment extends Fragment {
      */
     public void setReadOnly(boolean flag) {
         reayOnly = flag;
-        if (flag) {
-            payAmountEt.setInputType(InputType.TYPE_NULL);
-            remarkEt.setInputType(InputType.TYPE_NULL);
-        } else {
-            payAmountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-            remarkEt.setInputType(InputType.TYPE_CLASS_TEXT);
-        }
+        payAmountEt.setEnabled(!flag);
+        remarkEt.setEnabled(!flag);
+        userNameEt.setEnabled(!flag);
+        orderTimeEt.setEnabled(!flag);
+        payTimeEt.setEnabled(!flag);
     }
 
     /**

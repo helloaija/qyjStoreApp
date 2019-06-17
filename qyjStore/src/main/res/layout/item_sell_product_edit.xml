@@ -142,7 +142,6 @@
                 android:layout_height="@dimen/qyj_form_item_height"
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:inputType="numberDecimal"
-                android:digits="1234567890."
                 android:layout_gravity="fill"
                 android:hint="请输入售价"
                 android:maxLength="10"

@@ -114,8 +114,6 @@
                 android:background="@drawable/qmui_divider_bottom_bitmap"
                 android:gravity="center_vertical|end"
                 android:layout_gravity="fill"
-                android:inputType="numberDecimal"
-                android:digits="1234567890."
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 android:paddingLeft="@dimen/common_content_spacing"

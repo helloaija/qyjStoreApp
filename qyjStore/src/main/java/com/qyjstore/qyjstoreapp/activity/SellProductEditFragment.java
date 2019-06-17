@@ -29,7 +29,6 @@ import com.qyjstore.qyjstoreapp.bean.SellProductBean;
 import com.qyjstore.qyjstoreapp.bean.SpinnerItem;
 import com.qyjstore.qyjstoreapp.utils.AppUtil;
 import com.qyjstore.qyjstoreapp.utils.ConstantUtil;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,14 +227,14 @@ public class SellProductEditFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (TextUtils.isEmpty(AppUtil.getString(s))) {
-                            bean.setPrice(null);
-                        } else {
-                            bean.setPrice(Double.valueOf(AppUtil.getString(s)));
-                        }
-                        if (event != null) {
-                            event.onPriceChange();
-                        }
+                        // if (TextUtils.isEmpty(AppUtil.getString(s))) {
+                        //     bean.setPrice(null);
+                        // } else {
+                        //     bean.setPrice(Double.valueOf(AppUtil.getString(s)));
+                        // }
+                        // if (event != null) {
+                        //     event.onPriceChange();
+                        // }
                     }
                 });
 
@@ -279,17 +278,13 @@ public class SellProductEditFragment extends Fragment {
                     }
                 });
 
+                productNameEt.setEnabled(!reayOnly);
+                stockAmountEt.setEnabled(!reayOnly);
+                sellAmountEt.setEnabled(!reayOnly);
+                numberEt.setEnabled(!reayOnly);
                 if (reayOnly) {
-                    productNameEt.setInputType(InputType.TYPE_NULL);
-                    stockAmountEt.setEnabled(false);
-                    sellAmountEt.setInputType(InputType.TYPE_NULL);
-                    numberEt.setInputType(InputType.TYPE_NULL);
                     removeBtn.setVisibility(View.INVISIBLE);
                 } else {
-                    productNameEt.setInputType(InputType.TYPE_CLASS_TEXT);
-                    stockAmountEt.setEnabled(true);
-                    sellAmountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-                    numberEt.setInputType(InputType.TYPE_CLASS_TEXT);
                     removeBtn.setVisibility(View.VISIBLE);
                 }
 
