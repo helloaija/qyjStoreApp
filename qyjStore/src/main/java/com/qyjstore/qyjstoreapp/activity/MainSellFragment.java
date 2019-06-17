@@ -128,10 +128,10 @@ public class MainSellFragment extends Fragment {
      * 查询按钮监听点击事件
      */
     private void queryBtnSetOnClickListener() {
-        queryText = queryEt.getText().toString();
         queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                queryText = queryEt.getText().toString();
                 pageIndex = 1;
                 pageCount = 1;
                 itemList.clear();
