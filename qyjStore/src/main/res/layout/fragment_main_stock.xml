@@ -2,27 +2,78 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main_sell"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.MainActivity">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/qmui_config_color_white">
 
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView android:id="@+id/message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/nav_stock"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+    <!--搜索框-->
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/fragment_main_stock_et_query"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="16dp"
+            android:visibility="invisible"
+            android:hint="@string/hint_sell_query"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <Button android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello, I am stock"/>
-    </LinearLayout>
+    <!--搜索按钮-->
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:text="@string/btn_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_main_stock_btn_query"
+            style="@style/QyjHollowButton"
+            app:qmui_radius="4dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/fragment_main_stock_et_query"
+            app:layout_constraintTop_toTopOf="@+id/fragment_main_stock_et_query"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_main_stock_et_query"
+    />
 
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/fragment_main_stock_addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            style="@style/QyjHollowButton"
+            app:qmui_radius="4dp"
+            android:text="添加"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_main_stock_et_query"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_main_stock_et_query"
+    />
+
+    <android.support.constraint.Barrier
+            android:id="@+id/fragment_main_stock_barrier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="fragment_main_stock_et_query,fragment_main_stock_btn_query,fragment_main_stock_addBtn"/>
+
+    <View android:id="@+id/fragment_main_stock_query_divier"
+          android:layout_width="fill_parent"
+          android:layout_height="1dip"
+          android:background="@color/tab_panel_divider"
+          app:layout_constraintTop_toBottomOf="@+id/fragment_main_stock_barrier"
+    />
+
+    <!--入库单列表-->
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/fragment_main_stock_xrv"
+            android:background="@color/tab_panel_divider"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_main_stock_query_divier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

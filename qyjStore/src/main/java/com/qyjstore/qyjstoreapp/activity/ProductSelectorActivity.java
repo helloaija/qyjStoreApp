@@ -86,6 +86,15 @@ public class ProductSelectorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mContext = this;
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                pageType = bundle.getString(ProductSelectorActivity.BUNDLE_KEY_PAGE_TYPE);
+            }
+        }
+
         setContentView(R.layout.activity_product_selector);
         queryEt = findViewById(R.id.activity_product_selector_queryEt);
         recyclerView = findViewById(R.id.activity_product_selector_xrv);
@@ -143,8 +152,8 @@ public class ProductSelectorActivity extends BaseActivity {
             formBarLayout.setVisibility(View.GONE);
             gridLayout.setVisibility(View.GONE);
         } else {
-            formBarLayout.setVisibility(View.INVISIBLE);
-            gridLayout.setVisibility(View.INVISIBLE);
+            formBarLayout.setVisibility(View.VISIBLE);
+            gridLayout.setVisibility(View.VISIBLE);
 
             // 添加产品按钮
             addProductBtn.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +166,15 @@ public class ProductSelectorActivity extends BaseActivity {
                     String remark = remarkEt.getText().toString().trim();
 
                     if (TextUtils.isEmpty(title)) {
-                        ToastUtil.makeText(mContext, "用户名不能为空");
+                        ToastUtil.makeText(mContext, "产品名不能为空");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(productUnit)) {
+                        ToastUtil.makeText(mContext, "单位不能为空");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(price)) {
+                        ToastUtil.makeText(mContext, "售价不能为空");
                         return;
                     }
 
@@ -257,7 +274,7 @@ public class ProductSelectorActivity extends BaseActivity {
         String url = ConfigUtil.SYS_SERVICE_LIST_STOCK_PRODUCT;
         if (PAGE_TYPE_STOCK.equals(pageType)) {
             // 进货展示全部产品
-            url = "";
+//            url = ConfigUtil.SYS_SERVICE_LIST_PRODUCT;
         }
 
         OkHttpUtil.doGet(url, paramMap, new OkHttpUtil.HttpCallBack(mContext) {

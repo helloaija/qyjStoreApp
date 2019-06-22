@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.qmuiteam.qmui.widget.QMUIFloatLayout
+            android:id="@+id/fragment_stock_product_floatlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:background="@color/qmui_config_color_10_pure_black"
+            app:qmui_childHorizontalSpacing="20dp"
+            app:qmui_childVerticalSpacing="20dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+    >
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/fragment_stock_product_addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="添加产品"
+                app:qmui_radius="4dp"
+        />
+
+    </com.qmuiteam.qmui.widget.QMUIFloatLayout>
+
+    <com.qmuiteam.qmui.widget.QMUIAnimationListView
+            android:id="@+id/fragment_stock_product_edit_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/tab_panel_divider"
+            android:dividerHeight="5dp"
+    />
+
+</LinearLayout>

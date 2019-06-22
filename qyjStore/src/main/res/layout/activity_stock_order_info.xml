@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_stock_order_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f6f6f6">
+
+    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+            android:id="@+id/activity_stock_order_info_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fitsSystemWindows="true"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            android:background="@color/qmui_config_color_white"
+            app:layout_constraintTop_toBottomOf="@+id/activity_stock_order_info_topbar"
+            app:layout_constraintBottom_toTopOf="@+id/activity_stock_order_info_floatlayout"
+    >
+
+        <com.qmuiteam.qmui.widget.QMUITabSegment
+                android:id="@+id/activity_stock_order_info_tabSegment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/tab_panel_bg"/>
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/activity_stock_order_info_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fitsSystemWindows="true"/>
+    </LinearLayout>
+
+    <com.qmuiteam.qmui.widget.QMUIFloatLayout
+            android:id="@+id/activity_stock_order_info_floatlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:background="@drawable/qmui_list_item_bg_with_border_top"
+            app:qmui_childHorizontalSpacing="20dp"
+            app:qmui_childVerticalSpacing="20dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+    >
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_stock_order_info_editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="编辑"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_stock_order_info_delBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="删除"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_stock_order_info_concelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="取消"
+                app:qmui_radius="4dp"
+        />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/activity_stock_order_info_saveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/QyjHollowButton"
+                android:text="保存"
+                app:qmui_radius="4dp"
+        />
+    </com.qmuiteam.qmui.widget.QMUIFloatLayout>
+
+</android.support.constraint.ConstraintLayout>

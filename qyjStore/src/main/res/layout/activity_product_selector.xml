@@ -80,7 +80,7 @@
     <GridLayout
             android:id="@+id/activity_product_selector_gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/qyj_form_item_height"
+            android:layout_height="wrap_content"
             android:background="@color/qmui_config_color_white"
             android:columnCount="2"
             android:focusable="true"

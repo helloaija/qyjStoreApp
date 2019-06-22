@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/qmui_config_color_white">
+
+    <!--订单编号-->
+    <TextView
+            android:id="@+id/item_main_stock_tv_orderNumber"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <!--订单时间-->
+    <TextView
+            android:id="@+id/item_main_stock_tv_orderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <!--订单金额-->
+    <TextView
+            android:id="@+id/item_main_stock_tv_orderAmount_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_main_stock_tv_orderNumber"
+    />
+    <TextView
+            android:id="@+id/item_main_stock_tv_orderAmount_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintLeft_toRightOf="@id/item_main_stock_tv_orderAmount_long"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_stock_tv_orderAmount_long"
+    />
+
+    <!--订单状态-->
+    <TextView
+            android:id="@+id/item_main_stock_tv_orderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/item_main_stock_tv_orderAmount_long"
+    />
+
+</android.support.constraint.ConstraintLayout>

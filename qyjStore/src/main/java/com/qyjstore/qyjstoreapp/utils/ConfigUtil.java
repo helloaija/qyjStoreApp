@@ -31,6 +31,9 @@ public class ConfigUtil {
     /** 接口-获取进货产品列表 */
     public static String SYS_SERVICE_LIST_STOCK_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/listProductStockInfo";
 
+    /** 接口-获取产品列表 */
+    public static String SYS_SERVICE_LIST_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/product/listProductPage";
+
     /** 接口-保存产品信息 */
     public static String SYS_SERVICE_SAVE_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/product/saveProductInfo";
 
@@ -43,4 +46,18 @@ public class ConfigUtil {
     /** 接口-删除销售单 */
     public static String SYS_SERVICE_DELETE_SELL_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/deleteSellOrder";
 
+    /** 接口-获取进货订单列表 */
+    public static String SYS_SERVICE_LIST_STOCK_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/listStockOrderPage";
+
+    /** 接口-获取单个进货单 */
+    public static String SYS_SERVICE_GET_STOCK_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/getStockOrderInfo";
+
+    /** 接口-添加进货单 */
+    public static String SYS_SERVICE_ADD_STOCK_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/addStockOrder";
+
+    /** 接口-更新进货单 */
+    public static String SYS_SERVICE_UPDATE_STOCK_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/updateStockOrder";
+
+    /** 接口-删除进货单 */
+    public static String SYS_SERVICE_DELETE_STOCK_ORDER = SYS_SERVICE_BASE_URL + "/admin/app/stockOrder/deleteStockOrder";
 }

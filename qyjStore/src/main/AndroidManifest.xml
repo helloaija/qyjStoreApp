@@ -59,5 +59,10 @@
         <activity android:name="com.qyjstore.qyjstoreapp.activity.ProductSelectorActivity"
                   android:screenOrientation="portrait">
         </activity>
+
+        <!--进货单编辑页面-->
+        <activity android:name="com.qyjstore.qyjstoreapp.activity.StockOrderInfoActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 </manifest>
