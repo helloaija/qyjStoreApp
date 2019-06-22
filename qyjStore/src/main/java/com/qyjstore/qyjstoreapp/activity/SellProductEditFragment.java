@@ -10,15 +10,10 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.QMUIAnimationListView;
@@ -50,18 +45,16 @@ public class SellProductEditFragment extends Fragment {
     private QMUIAnimationListView mListView;
     private List<SellProductBean> mDataList;
 
-    /**
-     * 当前选择产品的组件
-     */
+    /** 当前选择产品的组件 */
     private View currentProductSelectView;
-    /**
-     * 当前选择产品的对象
-     */
+    /** 当前选择产品的对象 */
     private SellProductBean currentProductSelectBean;
-    /**
-     * 事件，用来汇总订单总金额
-     */
+    /** 事件，用来汇总订单总金额 */
     private SellProductEditEvent event;
+    /**
+     * 当前编辑的编辑框
+     */
+    private EditText currentEditText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -197,23 +190,31 @@ public class SellProductEditFragment extends Fragment {
                     }
                 }
                 stockAmountEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                            @Override
-                                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                                if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
-                                                                    bean.setStockPrice(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
-                                                                }
-                                                            }
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (!TextUtils.isEmpty(stockAmountEt.getItemAtPosition(position).toString())) {
+                                bean.setStockPrice(Double.valueOf(stockAmountEt.getItemAtPosition(position).toString()));
+                            }
+                        }
 
-                                                            @Override
-                                                            public void onNothingSelected(AdapterView<?> parent) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                                                            }
-                                                        }
+                        }
+                    }
                 );
 
                 // 售价
                 EditText sellAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_sellAmount);
                 sellAmountEt.setText(AppUtil.getString(bean.getPrice()));
+                sellAmountEt.setOnTouchListener(new View.OnTouchListener() {
+
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        currentEditText = (EditText) v;
+                        return false;
+                    }
+                });
                 sellAmountEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -227,20 +228,28 @@ public class SellProductEditFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        // if (TextUtils.isEmpty(AppUtil.getString(s))) {
-                        //     bean.setPrice(null);
-                        // } else {
-                        //     bean.setPrice(Double.valueOf(AppUtil.getString(s)));
-                        // }
-                        // if (event != null) {
-                        //     event.onPriceChange();
-                        // }
+                        if (TextUtils.isEmpty(AppUtil.getString(s))) {
+                            bean.setPrice(null);
+                        } else {
+                            bean.setPrice(Double.valueOf(AppUtil.getString(s)));
+                        }
+                        if (event != null) {
+                            event.onPriceChange();
+                        }
                     }
                 });
 
                 // 数量
                 EditText numberEt = view.findViewById(R.id.item_sell_pruduct_edit_number);
                 numberEt.setText(AppUtil.getString(bean.getNumber()));
+                numberEt.setOnTouchListener(new View.OnTouchListener() {
+
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        currentEditText = (EditText) v;
+                        return false;
+                    }
+                });
                 numberEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -288,8 +297,20 @@ public class SellProductEditFragment extends Fragment {
                     removeBtn.setVisibility(View.VISIBLE);
                 }
 
+//                if (position == mDataList.size() - 1) {
+//                    if (currentEditText != null) {
+//                        currentEditText.performClick();
+//                        currentEditText.clearFocus();
+//                        ToastUtil.makeText(mContext, "设置焦点");
+//                        currentEditText.requestFocus();
+//                        currentEditText.setSelection(currentEditText .getText().length());
+//                    }
+//                }
+
                 return view;
             }
+
+
         });
     }
 
@@ -408,4 +429,6 @@ public class SellProductEditFragment extends Fragment {
         }
         return cloneList;
     }
+
+
 }

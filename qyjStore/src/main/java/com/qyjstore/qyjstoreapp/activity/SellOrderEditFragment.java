@@ -244,10 +244,13 @@ public class SellOrderEditFragment extends Fragment {
         }
         data.setUserId(userId);
         data.setOrderNumber(orderNumberEt.getText().toString());
-        data.setOrderAmount(new BigDecimal(orderAmountEt.getText().toString()));
+
+        String orderAmount = orderAmountEt.getText().toString();
+        data.setOrderAmount(TextUtils.isEmpty(orderAmount) ? null : new BigDecimal(orderAmount));
         data.setUserName(userNameEt.getText().toString().trim());
         data.setOrderTime(DateUtil.parseStringToDate(orderTimeEt.getText().toString(), DateUtil.DATE_FORMAT_DATE_CH));
-        data.setHasPayAmount(new BigDecimal(payAmountEt.getText().toString()));
+        String hasPayAmount = payAmountEt.getText().toString();
+        data.setHasPayAmount(TextUtils.isEmpty(hasPayAmount) ? new BigDecimal(0.00) : new BigDecimal(hasPayAmount));
         data.setPayTime(DateUtil.parseStringToDate(payTimeEt.getText().toString(), DateUtil.DATE_FORMAT_DATE_CH));
         data.setRemark(remarkEt.getText().toString().trim());
 
