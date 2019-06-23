@@ -117,7 +117,7 @@ public class OkHttpUtil {
                     .getSharedPreferences(ConstantUtil.PRO_NAME_USER_INFO, Context.MODE_PRIVATE);
             String authentication = sp.getString("authentication", "");
 
-            Request request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + authentication)
+            Request request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + authentication).addHeader("clientType", "APP")
                     .build();
             return chain.proceed(request);
         }

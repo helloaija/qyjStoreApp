@@ -95,6 +95,7 @@ public class LoginActivity extends BaseActivity {
                 paramMap.put("username", username);
                 paramMap.put("password", password);
                 paramMap.put("validCode", verifyCode);
+                paramMap.put("clientType", "APP");
 
                 OkHttpUtil.doPost(ConfigUtil.SYS_SERVICE_LOGIN, paramMap, new OkHttpUtil.HttpCallBack(LoginActivity.this) {
                     @Override
