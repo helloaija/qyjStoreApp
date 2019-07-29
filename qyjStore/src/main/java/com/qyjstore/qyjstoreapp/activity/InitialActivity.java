@@ -132,8 +132,6 @@ public class InitialActivity extends BaseActivity {
 
         // 跳到验证手势密码页面
         mHandler.sendEmptyMessageDelayed(TO_GESTURE_VERIFY, GO_DELAY_MILLIS);
-
-        finish();
     }
 
 
