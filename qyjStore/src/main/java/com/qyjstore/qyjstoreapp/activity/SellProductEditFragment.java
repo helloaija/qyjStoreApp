@@ -372,12 +372,6 @@ public class SellProductEditFragment extends Fragment {
 
                 currentProductSelectBean.setProductId(selectedProductBean.getId());
 
-                EditText productNameEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_productName);
-                productNameEt.setText(selectedProductBean.getTitle());
-                TextView unitTv = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_unit);
-                unitTv.setText(selectedProductBean.getProductUnit());
-                currentProductSelectBean.setProductUnit(selectedProductBean.getProductUnit());
-
                 Spinner stockAmountEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_stockAmount);
                 String[] stockPrices = selectedProductBean.getStockPrices();
                 SpinnerItem[] spinnerItemList = new SpinnerItem[stockPrices.length];
@@ -388,6 +382,12 @@ public class SellProductEditFragment extends Fragment {
                 ArrayAdapter<SpinnerItem> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, spinnerItemList);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 stockAmountEt.setAdapter(spinnerAdapter);
+
+                EditText productNameEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_productName);
+                productNameEt.setText(selectedProductBean.getTitle());
+                TextView unitTv = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_unit);
+                unitTv.setText(selectedProductBean.getProductUnit());
+                currentProductSelectBean.setProductUnit(selectedProductBean.getProductUnit());
             }
         }
     }

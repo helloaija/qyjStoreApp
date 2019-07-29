@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -207,6 +208,7 @@ public class ProductSelectorActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     setSelectResult(resultBean);
+                                    hideKeyboard();
                                     finish();
                                 }
                             });
@@ -262,7 +264,7 @@ public class ProductSelectorActivity extends BaseActivity {
      */
     private void loadSellOrderData() {
         if (pageIndex > pageCount) {
-            recyclerView.setNoMore(true);
+            handler.post(runnable);
             return;
         }
 
@@ -274,7 +276,7 @@ public class ProductSelectorActivity extends BaseActivity {
         String url = ConfigUtil.SYS_SERVICE_LIST_STOCK_PRODUCT;
         if (PAGE_TYPE_STOCK.equals(pageType)) {
             // 进货展示全部产品
-//            url = ConfigUtil.SYS_SERVICE_LIST_PRODUCT;
+           // url = ConfigUtil.SYS_SERVICE_LIST_PRODUCT;
         }
 
         OkHttpUtil.doGet(url, paramMap, new OkHttpUtil.HttpCallBack(mContext) {
@@ -296,7 +298,7 @@ public class ProductSelectorActivity extends BaseActivity {
 
                 pageCount = json.getJSONObject("result").getInteger("pageCount");
                 if (pageIndex > pageCount) {
-                    recyclerView.setNoMore(true);
+                    handler.post(runnable);
                     return;
                 }
                 String recordListStr = json.getJSONObject("result").getString("recordList");
@@ -359,6 +361,7 @@ public class ProductSelectorActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     setSelectResult(bean);
+                    hideKeyboard();
                     finish();
                 }
             });
@@ -403,6 +406,17 @@ public class ProductSelectorActivity extends BaseActivity {
             intent.putExtras(bundle);
         }
         setResult(0, intent);
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        View vv = getWindow().peekDecorView();
+        if (null != vv && imm != null) {
+            imm.hideSoftInputFromWindow(vv.getWindowToken(), 0);
+        }
     }
 
 }

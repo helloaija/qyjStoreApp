@@ -207,7 +207,7 @@ public class UserSelectorActivity extends BaseActivity {
      */
     private void loadSellOrderData() {
         if (pageIndex > pageCount) {
-            recyclerView.setNoMore(true);
+            handler.post(runnable);
             return;
         }
 
@@ -234,7 +234,7 @@ public class UserSelectorActivity extends BaseActivity {
 
                 pageCount = json.getJSONObject("result").getInteger("pageCount");
                 if (pageIndex > pageCount) {
-                    recyclerView.setNoMore(true);
+                    handler.post(runnable);
                     return;
                 }
                 String recordListStr = json.getJSONObject("result").getString("recordList");

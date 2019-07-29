@@ -148,7 +148,7 @@ public class StockOrderEditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (currentDatePickView != null) {
-                    currentDatePickView.setText(datePicker.getYear() + "年" + datePicker.getMonth() + "月" + datePicker.getDayOfMonth() + "日");
+                    currentDatePickView.setText(datePicker.getYear() + "年" + (datePicker.getMonth() + 1) + "月" + datePicker.getDayOfMonth() + "日");
                 }
                 datePickGroup.setVisibility(View.GONE);
                 emptyView.setVisibility(View.GONE);
