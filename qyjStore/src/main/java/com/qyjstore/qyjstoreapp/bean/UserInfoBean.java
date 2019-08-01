@@ -2,7 +2,7 @@ package com.qyjstore.qyjstoreapp.bean;
 
 /**
  * @Author shitl
- * @Description 用户信息类
+ * @Description app登录用户信息类
  * @date 2019-05-27
  */
 public class UserInfoBean {

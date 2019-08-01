@@ -30,4 +30,8 @@
     <dimen name="spanUtils_common_textSize">16sp</dimen>
 
     <dimen name="qyj_form_item_height">38dp</dimen>
+    <dimen name="qyj_list_item_title_m_text_size">20sp</dimen>
+    <dimen name="qyj_list_item_title_s_text_size">16sp</dimen>
+    <dimen name="qyj_list_item_detail_s_text_size">10sp</dimen>
+    <dimen name="qyj_list_item_detail_s_margin_bottom">3dp</dimen>
 </resources>

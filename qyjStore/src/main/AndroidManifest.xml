@@ -68,5 +68,11 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan">
         </activity>
+
+        <!--库存页面-->
+        <activity android:name="com.qyjstore.qyjstoreapp.activity.StoreActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 </manifest>

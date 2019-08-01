@@ -63,6 +63,9 @@ public class ProductBean implements Serializable {
 
     private Date delTime;
 
+    /** 最新进价，在库存中显示 */
+    private BigDecimal stockPrice;
+    /** 产品所有进价，在入库中选择进价 */
     private String[] stockPrices;
 
     public Long getId() {
@@ -215,6 +218,14 @@ public class ProductBean implements Serializable {
 
     public void setStockPrices(String[] stockPrices) {
         this.stockPrices = stockPrices;
+    }
+
+    public BigDecimal getStockPrice() {
+        return stockPrice;
+    }
+
+    public void setStockPrice(BigDecimal stockPrice) {
+        this.stockPrice = stockPrice;
     }
 
     @Override
