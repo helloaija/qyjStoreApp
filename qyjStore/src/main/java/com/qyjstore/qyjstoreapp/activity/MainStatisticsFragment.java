@@ -59,7 +59,7 @@ public class MainStatisticsFragment extends Fragment {
         QMUIGroupListView.newSection(getContext())
                 .setLeftIconSize(size, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .addItemView(storeItem, new PageForwarListener(mContext, StoreActivity.class))
-                .addItemView(personItem, new PageForwarListener(mContext, StoreActivity.class))
+                .addItemView(personItem, new PageForwarListener(mContext, UserActivity.class))
                 .addTo(mGroupListView);
     }
 
