@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/qmui_config_color_white">
+
+    <!--产品名-->
+    <TextView
+            android:id="@+id/item_sell_product_productTitle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <!--购买人-->
+    <TextView
+            android:id="@+id/item_sell_product_userName"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/item_sell_product_productTitle"
+            app:layout_constraintRight_toLeftOf="@id/item_sell_product_orderTime"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <!--订单时间-->
+    <TextView
+            android:id="@+id/item_sell_product_orderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <TextView
+            android:id="@+id/item_sell_product_priceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="售价￥"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/qyj_list_item_detail_s_margin_bottom"
+            android:textSize="@dimen/qyj_list_item_detail_s_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+    <TextView
+            android:id="@+id/item_sell_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/qyj_list_item_title_m_text_size"
+            android:text="0.00"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_priceLabel"
+            app:layout_constraintTop_toBottomOf="@id/item_sell_product_productTitle"
+    />
+
+    <TextView
+            android:id="@+id/item_sell_product_stockPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="进价￥"
+            android:layout_marginBottom="@dimen/qyj_list_item_detail_s_margin_bottom"
+            android:textSize="@dimen/qyj_list_item_detail_s_text_size"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_price"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+    <TextView
+            android:id="@+id/item_sell_product_stockPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/qyj_list_item_title_m_text_size"
+            android:text="0.00"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_stockPriceLabel"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+
+    <TextView
+            android:id="@+id/item_sell_product_numberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:layout_marginBottom="@dimen/qyj_list_item_detail_s_margin_bottom"
+            android:textSize="@dimen/qyj_list_item_detail_s_text_size"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_stockPrice"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+    <TextView
+            android:id="@+id/item_sell_product_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/qyj_list_item_title_m_text_size"
+            android:text="0"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_numberLabel"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+    <TextView
+            android:id="@+id/item_sell_product_productUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/qyj_list_item_detail_s_margin_bottom"
+            android:textSize="@dimen/qyj_list_item_detail_s_text_size"
+            app:layout_constraintStart_toEndOf="@id/item_sell_product_number"
+            app:layout_constraintBottom_toBottomOf="@id/item_sell_product_price"
+    />
+
+
+</android.support.constraint.ConstraintLayout>

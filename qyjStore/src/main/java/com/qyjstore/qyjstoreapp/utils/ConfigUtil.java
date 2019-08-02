@@ -63,4 +63,7 @@ public class ConfigUtil {
 
     /** 接口-获取库存列表 */
     public static String SYS_SERVICE_LIST_STORE = SYS_SERVICE_BASE_URL + "/admin/app/product/listStoreDetail";
+
+    /** 接口-获取产品销售列表 */
+    public static String SYS_SERVICE_LIST_SELL_PRODUCT = SYS_SERVICE_BASE_URL + "/admin/app/sellOrder/getSellProductPage";
 }

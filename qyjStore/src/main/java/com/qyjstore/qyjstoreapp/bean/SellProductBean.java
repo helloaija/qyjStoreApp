@@ -1,6 +1,7 @@
 package com.qyjstore.qyjstoreapp.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author shitl
@@ -35,6 +36,18 @@ public class SellProductBean implements Serializable, Cloneable {
      * 数量
      */
     private Integer number;
+
+    /** 单据编号 */
+    private String orderNumber;
+
+    /** 交易时间 */
+    private Date orderTime;
+
+    /** 购买人 */
+    private String userName;
+
+    /** 订单状态 */
+    private String orderStatus;
 
     public Long getId() {
         return id;
@@ -90,6 +103,38 @@ public class SellProductBean implements Serializable, Cloneable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override

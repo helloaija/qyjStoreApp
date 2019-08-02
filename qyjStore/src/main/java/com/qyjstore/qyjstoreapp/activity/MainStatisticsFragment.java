@@ -1,12 +1,10 @@
 package com.qyjstore.qyjstoreapp.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +53,21 @@ public class MainStatisticsFragment extends Fragment {
         personItem.setOrientation(QMUICommonListItemView.VERTICAL);
         personItem.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON);
 
+        QMUICommonListItemView sellProductItem = mGroupListView.createItemView(
+                ContextCompat.getDrawable(mContext, R.mipmap.ic_sell_product),
+                "销售产品",
+                null,
+                QMUICommonListItemView.HORIZONTAL,
+                QMUICommonListItemView.ACCESSORY_TYPE_NONE);
+        sellProductItem.setOrientation(QMUICommonListItemView.VERTICAL);
+        sellProductItem.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON);
+
         int size = QMUIDisplayHelper.dp2px(mContext, 35);
         QMUIGroupListView.newSection(getContext())
                 .setLeftIconSize(size, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .addItemView(storeItem, new PageForwarListener(mContext, StoreActivity.class))
                 .addItemView(personItem, new PageForwarListener(mContext, UserActivity.class))
+                .addItemView(sellProductItem, new PageForwarListener(mContext, SellProductActivity.class))
                 .addTo(mGroupListView);
     }
 
