@@ -52,10 +52,13 @@ import java.util.Map;
  */
 public class ProductSelectorActivity extends BaseActivity {
     public static String BUNDLE_KEY_PAGE_TYPE = "PAGE_TYPE";
+    public static String BUNDLE_KEY_USER_ID = "USER_ID";
     public static String PAGE_TYPE_SELL = "SELL";
     public static String PAGE_TYPE_STOCK = "STOCK";
     /** 页面类型，销售、进货 */
     private String pageType = PAGE_TYPE_SELL;
+    /** 传进来的用户ID */
+    private Long userId;
 
     private Context mContext;
     /** 查询框 */
@@ -93,6 +96,7 @@ public class ProductSelectorActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 pageType = bundle.getString(ProductSelectorActivity.BUNDLE_KEY_PAGE_TYPE);
+                userId = bundle.getLong(BUNDLE_KEY_USER_ID);
             }
         }
 
@@ -277,6 +281,8 @@ public class ProductSelectorActivity extends BaseActivity {
         if (PAGE_TYPE_STOCK.equals(pageType)) {
             // 进货展示全部产品
            // url = ConfigUtil.SYS_SERVICE_LIST_PRODUCT;
+        } else {
+            paramMap.put("userId", String.valueOf(userId));
         }
 
         OkHttpUtil.doGet(url, paramMap, new OkHttpUtil.HttpCallBack(mContext) {

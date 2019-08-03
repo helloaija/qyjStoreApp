@@ -182,6 +182,7 @@ public class SellOrderInfoActivity extends BaseActivity {
 
             bundle2.putSerializable(SellProductEditFragment.BUNDLE_KEY_PRODUCT_LIST, (Serializable) sellOrder.getSellProductList());
             bundle2.putBoolean(SellProductEditFragment.BUNDLE_KEY_READ_ONLY, PAGE_STATE_VIEW.equals(pageState));
+            productFragment.setUserId(sellOrder.getUserId());
         }
         orderFragment.setArguments(bundle);
         productFragment.setArguments(bundle2);
@@ -189,6 +190,13 @@ public class SellOrderInfoActivity extends BaseActivity {
         paperItemList = new ArrayList<>();
         paperItemList.add(new PagerItem("订单信息", orderFragment));
         paperItemList.add(new PagerItem("产品信息", productFragment));
+
+        orderFragment.setEvent(new SellOrderEditFragment.SellOrderEditEvent() {
+            @Override
+            public void onAfterUserSelect(Long userId) {
+                productFragment.setUserId(userId);
+            }
+        });
 
         productFragment.setEvent(new SellProductEditFragment.SellProductEditEvent() {
 

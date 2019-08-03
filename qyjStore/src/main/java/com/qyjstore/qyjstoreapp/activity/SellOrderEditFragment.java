@@ -56,6 +56,9 @@ public class SellOrderEditFragment extends Fragment {
     private EditText currentDatePickView;
     private QMUIEmptyView emptyView;
 
+    /** 回调事件 */
+    private SellOrderEditEvent event;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,6 +232,10 @@ public class SellOrderEditFragment extends Fragment {
                 UserBean selectedUserBean = JSON.parseObject(selectedUserJsonString, UserBean.class);
                 userId = selectedUserBean.getId();
                 userNameEt.setText(selectedUserBean.getUserName());
+
+                if (event != null) {
+                    event.onAfterUserSelect(userId);
+                }
             }
         }
     }
@@ -263,5 +270,19 @@ public class SellOrderEditFragment extends Fragment {
      */
     public void setOrderAmount(BigDecimal orderAmount) {
         orderAmountEt.setText(AppUtil.getString(orderAmount.setScale(2, BigDecimal.ROUND_DOWN)));
+    }
+
+    /**
+     * 事件接口
+     */
+    public interface SellOrderEditEvent {
+        /**
+         * 选择用户后
+         */
+        void onAfterUserSelect(Long userId);
+    }
+
+    public void setEvent(SellOrderEditEvent event) {
+        this.event = event;
     }
 }

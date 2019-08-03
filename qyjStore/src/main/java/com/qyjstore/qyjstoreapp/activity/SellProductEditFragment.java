@@ -10,10 +10,15 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.QMUIAnimationListView;
@@ -51,10 +56,8 @@ public class SellProductEditFragment extends Fragment {
     private SellProductBean currentProductSelectBean;
     /** 事件，用来汇总订单总金额 */
     private SellProductEditEvent event;
-    /**
-     * 当前编辑的编辑框
-     */
-    private EditText currentEditText;
+    /** 订单选择的用户ID，用来获取产品对该用户的售价 */
+    private Long userId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,10 +158,15 @@ public class SellProductEditFragment extends Fragment {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
                         if (!reayOnly && hasFocus) {
+
+
                             // 跳到产品选择页面
                             Intent intent = new Intent(getContext(), ProductSelectorActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(ProductSelectorActivity.BUNDLE_KEY_PAGE_TYPE, ProductSelectorActivity.PAGE_TYPE_SELL);
+                            if (userId != null) {
+                                bundle.putLong(ProductSelectorActivity.BUNDLE_KEY_USER_ID, userId);
+                            }
                             intent.putExtras(bundle);
                             startActivityForResult(intent, 0);
                             currentProductSelectView = view;
@@ -207,14 +215,6 @@ public class SellProductEditFragment extends Fragment {
                 // 售价
                 EditText sellAmountEt = view.findViewById(R.id.item_sell_pruduct_edit_sellAmount);
                 sellAmountEt.setText(AppUtil.getString(bean.getPrice()));
-                sellAmountEt.setOnTouchListener(new View.OnTouchListener() {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        currentEditText = (EditText) v;
-                        return false;
-                    }
-                });
                 sellAmountEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -242,14 +242,6 @@ public class SellProductEditFragment extends Fragment {
                 // 数量
                 EditText numberEt = view.findViewById(R.id.item_sell_pruduct_edit_number);
                 numberEt.setText(AppUtil.getString(bean.getNumber()));
-                numberEt.setOnTouchListener(new View.OnTouchListener() {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        currentEditText = (EditText) v;
-                        return false;
-                    }
-                });
                 numberEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -296,16 +288,6 @@ public class SellProductEditFragment extends Fragment {
                 } else {
                     removeBtn.setVisibility(View.VISIBLE);
                 }
-
-//                if (position == mDataList.size() - 1) {
-//                    if (currentEditText != null) {
-//                        currentEditText.performClick();
-//                        currentEditText.clearFocus();
-//                        ToastUtil.makeText(mContext, "设置焦点");
-//                        currentEditText.requestFocus();
-//                        currentEditText.setSelection(currentEditText .getText().length());
-//                    }
-//                }
 
                 return view;
             }
@@ -388,6 +370,8 @@ public class SellProductEditFragment extends Fragment {
                 TextView unitTv = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_unit);
                 unitTv.setText(selectedProductBean.getProductUnit());
                 currentProductSelectBean.setProductUnit(selectedProductBean.getProductUnit());
+                EditText sellAmountEt = currentProductSelectView.findViewById(R.id.item_sell_pruduct_edit_sellAmount);
+                sellAmountEt.setText(String.valueOf(selectedProductBean.getPrice()));
             }
         }
     }
@@ -396,8 +380,14 @@ public class SellProductEditFragment extends Fragment {
      * 事件接口
      */
     public interface SellProductEditEvent {
+        /**
+         * 价格更改事件
+         */
         void onPriceChange();
 
+        /**
+         * 数量改变事件
+         */
         void onNumberChange();
     }
 
@@ -428,6 +418,14 @@ public class SellProductEditFragment extends Fragment {
             cloneList.add(cloneBean);
         }
         return cloneList;
+    }
+
+    /**
+     * 设置用户ID
+     * @param userId
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
 
