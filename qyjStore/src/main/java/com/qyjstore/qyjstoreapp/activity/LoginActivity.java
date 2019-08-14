@@ -3,6 +3,7 @@ package com.qyjstore.qyjstoreapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -61,7 +62,10 @@ public class LoginActivity extends BaseActivity {
      */
     private void setBgAlpha() {
         this.findViewById(R.id.activity_login).getBackground().setAlpha(100);
-        this.findViewById(R.id.activity_login_gl).getBackground().setAlpha(120);
+        Drawable d = this.findViewById(R.id.activity_login_gl).getBackground();
+        // 设置透明度会传播到其他页面的同一个Drawable，调用mutate禁止传播行为
+        d.mutate();
+        d.setAlpha(120);
         btnLogin.getBackground().setAlpha(200);
         topBar.getBackground().setAlpha(100);
     }
